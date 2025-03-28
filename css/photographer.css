@@ -1,11 +1,37 @@
 #contact_modal {
     display: none;
 }
-
+/*Header*/
 .photograph-header {
-    background-color: #FAFAFA;
-    height: 300px;
-    margin: 0 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f8f8f8;
+    padding: 2rem;
+    border-radius: 10px;
+}
+.photograph-header .info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.photograph-header h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #c25a41; /* Rouge foncé */
+}
+
+.photograph-header .location {
+    color: #901C1C;
+    font-size: 22px;
+    font-weight: normal;
+    margin-bottom: 5px;
+}
+
+.photograph-header .tagline {
+    font-size: 1rem;
+    color: #777;
 }
 
 .contact_button {
@@ -21,6 +47,94 @@
     cursor: pointer;
 }
 
+.photographer-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #ddd;
+}
+/*FIN Header*/
+/*IMG / Vid*/
+.photographer-media {
+    padding: 2rem 5%;
+    margin-top: 3rem;
+}
+
+.media-controls {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.sort-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.sort-label {
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.sort-select {
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    background: #FAFAFA;
+    border: 1px solid #C4C4C4;
+    appearance: none;
+}
+
+.media-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.media-card {
+    background: white;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.media-content {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+}
+
+.media-info {
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.media-info h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: #901C1C;
+}
+
+.media-stats {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.likes {
+    font-weight: 500;
+    color: #901C1C;
+}
+
+.price {
+    font-size: 0.9rem;
+    color: #757575;
+}
+/*FIN IMG/VID*/
 .modal {
     border-radius: 5px;
     background-color: #DB8876;

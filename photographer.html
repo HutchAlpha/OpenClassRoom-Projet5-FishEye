@@ -1,37 +1,49 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <link href="css/style.css" rel="stylesheet" type="text/css" />
+<html lang="fr">
+<head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fisheye - Photographe</title>
     <link rel="icon" type="image/png" href="assets/favicon.png">
+    <link href="css/style.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap" rel="stylesheet">
-    <title>Fisheye - photographe </title>
-  </head>
-  <body>
+</head>
+<body>
     <header>
-      <img src="assets/images/logo.png" class="logo" />
+        <img src="assets/images/logo.png" class="logo" alt="Logo Fisheye">
     </header>
+
     <main id="main">
-      <div class="photograph-header">
+      <section class="photograph-header">
+        <div class="info">
+          <h1></h1>
+          <h3 class="location"></h3>
+          <p class="tagline"></p>
+        </div>
         <button class="contact_button" onclick="displayModal()">Contactez-moi</button>
-      </div>
+        <img src="" alt="" class="photographer-img">
+      </section>
     </main>
+    <section class="photographer-media">
+    
+    </section>
     <div id="contact_modal">
-			<div class="modal">
-				<header>
-          <h2>Contactez-moi</h2>
-          <img src="assets/icons/close.svg" onclick="closeModal()" />
-        </header>
-				<form>
-					<div>
-						<label>Prénom</label>
-						<input />
-					</div>
-          <button class="contact_button">Envoyer</button>
-				</form>
-			</div>
-		</div>
+        <div class="modal">
+            <header>
+                <h2>Contactez-moi</h2>
+                <img src="assets/icons/close.svg" alt="Fermer la fenêtre" onclick="closeModal()">
+            </header>
+            <form>
+                <div>
+                    <label for="prenom">Prénom</label>
+                    <input id="prenom" type="text" required>
+                </div>
+                <button type="submit" class="contact_button">Envoyer</button>
+            </form>
+        </div>
+    </div>
+
     <script src="/scripts/pages/photographer.js"></script>
     <script src="/scripts/utils/contactForm.js"></script>
-  </body>
+</body>
 </html>

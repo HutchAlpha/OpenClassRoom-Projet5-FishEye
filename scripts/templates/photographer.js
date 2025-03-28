@@ -8,7 +8,7 @@ function photographerTemplate(data) {
 
         // Création du liens qui renvoir au photographe !
         const link = document.createElement("a");
-        link.setAttribute("href", `photographer.js?id=${id}`);
+        link.setAttribute("href", `photographer.html?id=${id}`);
     
         const img = document.createElement('img');
         img.setAttribute("src", picture);
@@ -36,5 +36,5 @@ function photographerTemplate(data) {
         article.appendChild(priceP);
         return (article);
     }
-    return { name, portrait, city, country, tagline, price, getUserCardDOM }
+    return { id, name, portrait, city, country, tagline, price, getUserCardDOM }
 }
