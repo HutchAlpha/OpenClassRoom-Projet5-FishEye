@@ -31,16 +31,19 @@ async function displayPhotographer(photographer) {
 
 // Affiche les médias
 function displayMedia(media, firstName) {
-    console.log(firstName);
     const mediaSection = document.querySelector('.photographer-media');
     mediaSection.innerHTML = ''; // Reset du contenu
 
     media.forEach(item => {
-        const mediaCard = document.createElement('article');
-        mediaCard.className = 'media-card';
-        mediaCard.dataset.id = item.id;
+        // Conteneur principal
+        const container = document.createElement('div');
+        container.className = 'PresentationPhotographe';
 
-        // Création du média (image ou vidéo)
+        // Block média (image/vidéo + détails)
+        const blockMedia = document.createElement('div');
+        blockMedia.className = 'blockMedia';
+
+        // Création du média
         let mediaElement;
         if (item.image) {
             mediaElement = document.createElement('img');
@@ -50,33 +53,37 @@ function displayMedia(media, firstName) {
             mediaElement = document.createElement('video');
             mediaElement.controls = true;
             const source = document.createElement('source');
-            source.src = `assets/photographers/${firstName}/${item.image}`;
+            source.src = `assets/photographers/${firstName}/${item.video}`;
             source.type = 'video/mp4';
             mediaElement.appendChild(source);
         }
 
-        // Création de la légende
-        const infoDiv = document.createElement('div');
-        infoDiv.className = 'media-info';
-        
+        // Détails sous le média
+        const detailMedia = document.createElement('div');
+        detailMedia.className = 'detailMedia';
+
         const title = document.createElement('h3');
         title.textContent = item.title;
         
         const likes = document.createElement('span');
         likes.className = 'likes';
-        likes.innerHTML = `${item.likes} ♥`;
+        likes.textContent = `${item.likes} ♥`;
 
-        // Assemblage des éléments
-        infoDiv.appendChild(title);
-        infoDiv.appendChild(likes);
-        mediaCard.appendChild(mediaElement);
-        mediaCard.appendChild(infoDiv);
-        mediaSection.appendChild(mediaCard);
+        // Assemblage
+        detailMedia.appendChild(title);
+        detailMedia.appendChild(likes);
+        blockMedia.appendChild(mediaElement);
+        blockMedia.appendChild(detailMedia);
+        container.appendChild(blockMedia);
+        mediaSection.appendChild(container);
     });
 }
-
-
-
+async function Prix(photographer) {
+    const {title, likes, price} = photographer;
+    document.querySelector('.media-info h3').textContent = title;
+    document.querySelector('.media-info.price').textContent = price;
+    document.querySelector('.media-info .likes').textContent = likes;
+}
 async function init() {
     const { photographer, media } = await getPhotographerData();
     
@@ -87,6 +94,7 @@ async function init() {
     const firstName = await displayPhotographer(photographer); 
     displayPhotographer(photographer);
     displayMedia(media, firstName);
+    prix(photographer);
 }
 
 

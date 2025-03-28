@@ -24,8 +24,38 @@
         <img src="" alt="" class="photographer-img">
       </section>
     </main>
+
+
+
     <section class="photographer-media">
-    
+      <div class="media-controls">
+          <div class="sort-wrapper">
+              <label for="sort-select" class="sort-label">Trier par</label>
+              <select id="sort-select" class="sort-select">
+                  <option value="popularity">Popularité</option>
+                  <option value="date">Date</option>
+                  <option value="title">Titre</option>
+              </select>
+          </div>
+      </div>
+
+      <div class="PresentationPhotographe">
+  <div class="blockMedia">
+    <!-- média ici -->
+    <div class="detailMedia">
+      <!-- titre et likes ici -->
+    </div>
+  </div>
+</div>
+    </section>
+
+
+    <section class="media-info">
+      <h3>${item.title}</h3>
+      <div class="media-stats">
+        <span class="likes"></span>
+        <span class="price"></span>
+      </div>
     </section>
     <div id="contact_modal">
         <div class="modal">
