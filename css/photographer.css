@@ -62,11 +62,12 @@
     justify-content: center;
     flex-direction: row;
     flex-wrap: wrap;
+    gap: 3rem;
 }
 
 .PresentationPhotographe{
     display: flex;
-    width: 33%;
+    width: 350px;
     flex-direction: row;
     flex-wrap: wrap;
 }
@@ -79,9 +80,9 @@
 .detailMedia h3{    
     margin: 0px;
 }
-.detailMedia .price {
-    font-size: 0.9rem;
-    color: #757575;
+.detailMedia .likes {
+    font-weight: 500;
+    color: #901C1C;
 }
 .blockMedia{
     width:350px;
@@ -96,18 +97,25 @@
 
 .blockMedia video{
     width: 100%;
+    object-fit: cover;
+    height:300px;
 }
 
 
-.likes {
-    font-weight: 500;
-    color: #901C1C;
+.media-info{
+    width: 375px;
+    height: 90px;
+    background-color: #DB8876;
 }
 
-.price {
+.media-info .price{
     font-size: 0.9rem;
-    color: #757575;
 }
+
+.media-info .likes{
+    font-weight: 500;
+}
+
 /*FIN IMG/VID*/
 /*Form*/
 form {

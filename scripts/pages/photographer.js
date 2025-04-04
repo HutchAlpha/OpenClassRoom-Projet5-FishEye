@@ -34,6 +34,9 @@ function displayMedia(media, firstName) {
     const mediaSection = document.querySelector('.photographer-media');
     mediaSection.innerHTML = ''; // Reset du contenu
 
+    //Récolte tout les likes de la personnes
+    const TOTALlikes = media.reduce((depart, item) => depart + item.likes, 0);
+
     media.forEach(item => {
         // Conteneur principal
         const container = document.createElement('div');
@@ -76,26 +79,26 @@ function displayMedia(media, firstName) {
         container.appendChild(blockMedia);
         mediaSection.appendChild(container);
     });
+    return TOTALlikes;
 }
-async function Prix(photographer) {
-    const {title, likes, price} = photographer;
-    document.querySelector('.media-info h3').textContent = title;
-    document.querySelector('.media-info .price').textContent = price + " €/ Jour";
-    document.querySelector('.media-info .likes').textContent = likes;
 
-}
-async function init() {
-    const { photographer, media } = await getPhotographerData();
-    
-    if (!photographer || !media.length) {
-        window.location.href = 'index.html';
-        return;
+    function Prix(photographer, TOTALlikes) {
+        const { price } = photographer;
+        document.querySelector('.media-info .TOTALlikes').textContent = `${TOTALlikes} ♥`;
+        document.querySelector('.media-info .price').textContent = `${price} €/ Jour`;
     }
-    const firstName = await displayPhotographer(photographer); 
-    displayPhotographer(photographer);
-    displayMedia(media, firstName);
-    Prix(photographer);
-}
+
+    async function init() {
+        const { photographer, media } = await getPhotographerData();
+        
+        if (!photographer || !media.length) {
+            window.location.href = 'index.html';
+            return;
+        }
+        const firstName = await displayPhotographer(photographer); 
+        const TOTALlikes = displayMedia(media, firstName);
+        Prix(photographer, TOTALlikes);
+    }
 
 
 init();
