@@ -58,23 +58,46 @@
 /*IMG / Vid*/
 .photographer-media{
     display: flex;
+    width: 100%;
+    justify-content: center;
     flex-direction: row;
     flex-wrap: wrap;
 }
 
 .PresentationPhotographe{
     display: flex;
+    width: 33%;
     flex-direction: row;
     flex-wrap: wrap;
 }
+.detailMedia{    
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
 
+.detailMedia h3{    
+    margin: 0px;
+}
+.detailMedia .price {
+    font-size: 0.9rem;
+    color: #757575;
+}
 .blockMedia{
-    width: 20%;
+    width:350px;
+    height:350px;
 }
 
 .blockMedia img{
     width: 100%;
+    object-fit: cover;
+    height:300px;
 }
+
+.blockMedia video{
+    width: 100%;
+}
+
 
 .likes {
     font-weight: 500;

@@ -19,7 +19,7 @@ async function displayPhotographer(photographer) {
 
     const picture = `assets/photographers/PhotographersPhotos/${portrait}`;
 
-    // Met à jour le header
+
     document.querySelector('.photograph-header h1').textContent = name;
     document.querySelector('.photograph-header .location').textContent = `${city}, ${country}`;
     document.querySelector('.photograph-header .tagline').textContent = tagline;
@@ -69,7 +69,6 @@ function displayMedia(media, firstName) {
         likes.className = 'likes';
         likes.textContent = `${item.likes} ♥`;
 
-        // Assemblage
         detailMedia.appendChild(title);
         detailMedia.appendChild(likes);
         blockMedia.appendChild(mediaElement);
@@ -81,8 +80,9 @@ function displayMedia(media, firstName) {
 async function Prix(photographer) {
     const {title, likes, price} = photographer;
     document.querySelector('.media-info h3').textContent = title;
-    document.querySelector('.media-info.price').textContent = price;
+    document.querySelector('.media-info .price').textContent = price + " €/ Jour";
     document.querySelector('.media-info .likes').textContent = likes;
+
 }
 async function init() {
     const { photographer, media } = await getPhotographerData();
@@ -94,7 +94,7 @@ async function init() {
     const firstName = await displayPhotographer(photographer); 
     displayPhotographer(photographer);
     displayMedia(media, firstName);
-    prix(photographer);
+    Prix(photographer);
 }
 
 
