@@ -56,19 +56,32 @@
         <span class="price"></span>
       </div>
     </section>
-    <div id="contact_modal">
-        <div class="modal">
-          <header>
-              <h2>Contactez-moi</h2>
-              <img src="assets/icons/close.svg" alt="Fermer la fenêtre" onclick="closeModal()">
-          </header>
-          <form>
-              <div>
-                  <label for="prenom">Prénom</label>
-                  <input id="prenom" type="text" required>
-              </div>
-              <button type="submit" class="contact_button">Envoyer</button>
-          </form>
+
+    <div class="contactModal" id="contact_modal">
+        <div class="formulaireContact">
+            <div class="formhaut">
+                <h2>Contactez-moi<br>Mimi Keel</h2>
+                <img src="assets/icons/close.svg" alt="Fermer la fenêtre" onclick="closeModal()" class="close-btn">
+            </div>
+            <form>
+                <div class="formData">
+                    <label for="prenom">Prénom</label>
+                    <input class="text-control" type="text" id="prenom" name="prenom">
+                </div>
+                <div class="formData">
+                    <label for="nom">Nom</label>
+                    <input class="text-control" type="text" id="nom" name="nom">
+                </div>
+                <div class="formData">
+                    <label for="email">Email</label>
+                    <input class="text-control" type="email" id="email" name="email">
+                </div>
+                <div class="formData">
+                    <label for="message">Votre message</label>
+                    <textarea class="text-control" id="message" name="message" rows="5"></textarea>
+                </div>
+                <button type="submit" class="contact_button">Envoyer</button>
+            </form>
         </div>
     </div>
 

@@ -152,30 +152,98 @@
 /*Block Info Like/Prix*/
 
 /*Form*/
-form {
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-    align-items: flex-start;
+.contactModal { 
+    position: fixed; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    height: 100%; 
+    width: 100%; 
+    top: 0; 
+    left: 0; 
+    z-index: 1000; 
+} 
+
+.formulaireContact { 
+    position: relative; 
+    background: #DB8876; 
+    width: 450px; 
+    height: 550px;
+    padding: 2rem; 
+    border-radius: 5px; 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
+} 
+
+.formhaut{ 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: flex-start; 
 }
 
-form label {
-    color: #312E2E;
-    font-size: 36px;
+.formhaut h2 { 
+    color: #000; 
+    font-size: 36px; 
+    margin: 0; 
+    line-height: 1.2; 
+    font-weight: normal; 
 }
 
-form div {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    align-items: self-start;
-    margin-bottom: 26px;
-}
+.close-btn { 
+    cursor: pointer; 
+    width: 32px; 
+    height: 32px; 
+} 
 
-form input {
-    width: 100%;
-    height: 68px;
+form { 
+    display: flex; 
+    width: 100%; 
+    flex-direction: column; 
+    align-items: flex-start; 
+} 
+
+form label { 
+    color: #312E2E; 
+    font-size: 20px; 
+    margin-bottom: 5px; 
+    display: block; 
+} 
+
+.formData { 
+    display: flex; 
+    flex-direction: column; 
+    width: 100%; 
+    align-items: 
+    flex-start; 
+} 
+.text-control { 
+    width: 100%; 
+    height: 50px;  
+    border: none; 
+    border-radius: 5px; 
+    padding: 0 10px; 
+    box-sizing: border-box; 
+    font-size: 16px; 
+} 
+
+textarea.text-control { 
+    height: 120px; 
+    padding: 10px; 
+    resize: none; 
+} 
+
+.contact_button { 
+    background-color: #901C1C;
+    color: white;
     border: none;
     border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 18px; 
+    cursor: pointer; 
+    align-self: flex-start; 
+    margin-top: 10px; 
+}
+
+.contact_button:hover { 
+    background-color: #7d1919; 
 }
 /*Fin form*/
