@@ -58,6 +58,7 @@
 /*IMG / Vid*/
 .photographer-media{
     display: flex;
+    margin-top: 100px;
     width: 100%;
     justify-content: center;
     flex-direction: row;
@@ -79,11 +80,15 @@
 
 .detailMedia h3{    
     margin: 0px;
+    color: #901C1C;
 }
 .detailMedia .likes {
     font-weight: 500;
     color: #901C1C;
 }
+
+
+
 .blockMedia{
     width:350px;
     height:350px;
@@ -93,6 +98,7 @@
     width: 100%;
     object-fit: cover;
     height:300px;
+    border-radius: 1%;
 }
 
 .blockMedia video{
@@ -100,23 +106,51 @@
     object-fit: cover;
     height:300px;
 }
-
-
-.media-info{
-    width: 375px;
-    height: 90px;
-    background-color: #DB8876;
-}
-
-.media-info .price{
-    font-size: 0.9rem;
-}
-
-.media-info .likes{
-    font-weight: 500;
-}
-
 /*FIN IMG/VID*/
+
+
+/*Block Info Like/Prix*/
+    .media-info {  
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        width: 250px;
+        height: 50px;
+        border-radius: 5px;
+        background-color: #DB8876;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); 
+        z-index: 1000; 
+        display: flex;
+        align-items: center;
+        padding: 0 20px;
+    }
+
+    .media-info .media-stats {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
+
+    .media-info .likes {
+        display: flex;
+        align-items: center;
+        font-weight: 500;
+        font-size: 1.1rem;
+        gap: 8px;
+    }
+
+    .media-info .heart {
+        color: black;
+        font-size: 1.2rem;
+    }
+
+    .media-info .price {
+        font-size: 1.1rem;
+        font-weight: 500;
+    }
+/*Block Info Like/Prix*/
+
 /*Form*/
 form {
     display: flex;

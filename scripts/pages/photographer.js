@@ -84,7 +84,7 @@ function displayMedia(media, firstName) {
 
     function Prix(photographer, TOTALlikes) {
         const { price } = photographer;
-        document.querySelector('.media-info .TOTALlikes').textContent = `${TOTALlikes} ♥`;
+        document.querySelector('.media-info .TOTALlikes').innerHTML = `${TOTALlikes} <span class="heart">♥</span>`;
         document.querySelector('.media-info .price').textContent = `${price} €/ Jour`;
     }
 
