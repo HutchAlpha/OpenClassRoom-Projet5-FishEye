@@ -35,6 +35,7 @@ function createMediaElement(item, firstName, index) {
     const container = document.createElement('div');
     container.className = 'PresentationPhotographe';
 
+    
     const blockMedia = document.createElement('div');
     blockMedia.className = 'blockMedia';
 
@@ -117,6 +118,31 @@ function displayMedia(media, firstName) {
 
     return TOTALlikes;
 }
+
+//Filtre
+document.getElementById('sort-select').addEventListener('change', function () {
+    const selected = this.value;
+    let sortedMedia = [...mediaList];
+
+    if (selected === "popularity") {
+        sortedMedia.sort((a, b) => b.likes - a.likes);
+    } else if (selected === "date") {
+        sortedMedia.sort((a, b) => new Date(a.date) - new Date(b.date));
+    } else if (selected === "title") {
+        sortedMedia.sort((a, b) => a.title.localeCompare(b.title));
+    }
+
+    // Réaffichage des médias triés dans le conteneur dédié
+    const mediaContainer = document.querySelector('.photographer-media');
+
+    mediaContainer.innerHTML = '';
+    sortedMedia.forEach((item, index) => {
+    const mediaElement = createMediaElement(item, item.firstName, index);
+    mediaContainer.appendChild(mediaElement);
+    });
+});
+
+//FIN Filtre
 
 // Affichage des détails lors du clic sur l'image/vidéo
 function closeOverlay() {
