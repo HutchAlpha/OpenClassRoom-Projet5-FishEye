@@ -59,6 +59,7 @@ function createMediaElement(item, firstName, index) {
 
         const header = document.querySelector("header");
         const main = document.getElementById("main");
+        const zoneFiltre = document.querySelector(".zoneFiltre");
         const photographerMedia = document.querySelector(".photographer-media");
         const contactModal = document.querySelector(".media-info");
 
@@ -69,6 +70,7 @@ function createMediaElement(item, firstName, index) {
             
             main.style.display = "none";
             header.style.display = "none";
+            zoneFiltre.style.display = "none";
             photographerMedia.style.display = "none";
             contactModal.style.display = "none";
 
@@ -122,6 +124,7 @@ function closeOverlay() {
 
     const header = document.querySelector("header");
         const main = document.getElementById("main");
+        const zoneFiltre = document.querySelector(".zoneFiltre");
         const photographerMedia = document.querySelector(".photographer-media");
         const contactModal = document.querySelector(".media-info");
 
@@ -131,6 +134,7 @@ function closeOverlay() {
         
         main.style.display = "block";
         header.style.display = "block";
+        zoneFiltre.style.display = "flex";
         photographerMedia.style.display = "flex";
         contactModal.style.display = "flex";
     });
