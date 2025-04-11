@@ -52,6 +52,20 @@ function displayMedia(media, firstName) {
             mediaElement = document.createElement('img');
             mediaElement.src = `assets/photographers/${firstName}/${item.image}`;
             mediaElement.alt = item.title;
+
+            mediaElement.addEventListener("click", function() {
+                const overlay = document.querySelector(".overlay");
+                const mainImage = document.getElementById("mainImage");
+            
+                if (overlay) {
+                    overlay.style.display = "block";
+                    mainVideo.style.display = "none";
+                    mainImage.style.display = "block";
+                    mainImage.src = `assets/photographers/${firstName}/${item.image}`;
+                    mainImage.alt = item.title; 
+                }
+            });
+
         } else if (item.video) {
             mediaElement = document.createElement('video');
             mediaElement.controls = true;
@@ -59,7 +73,21 @@ function displayMedia(media, firstName) {
             source.src = `assets/photographers/${firstName}/${item.video}`;
             source.type = 'video/mp4';
             mediaElement.appendChild(source);
+
+            mediaElement.addEventListener("click", function() {
+                const overlay = document.querySelector(".overlay");
+                const mainVideo = document.getElementById("mainVideo");
+            
+                if (overlay) {
+                    overlay.style.display = "block";
+                    mainImage.style.display = "none";
+                    mainVideo.style.display = "block";
+                    mainVideo.src = `assets/photographers/${firstName}/${item.video}`;
+                }
+            });
+            
         }
+
 
         // Détails sous le média
         const detailMedia = document.createElement('div');
@@ -72,6 +100,7 @@ function displayMedia(media, firstName) {
         likes.className = 'likes';
         likes.textContent = `${item.likes} ♥`;
 
+
         detailMedia.appendChild(title);
         detailMedia.appendChild(likes);
         blockMedia.appendChild(mediaElement);
@@ -81,6 +110,21 @@ function displayMedia(media, firstName) {
     });
     return TOTALlikes;
 }
+/*Affichage des détails lorsque click image*/
+function closeOverlay() {
+    let closebtn = document.querySelector(".close-btn");
+
+    closebtn.addEventListener("click", () => {
+        let overlay = document.querySelector(".overlay");
+        overlay.style.display = "none";
+    });
+}
+
+
+
+
+/*fin Affichage des détails lorsque click image*/
+
 
     function Prix(photographer, TOTALlikes) {
         const { price } = photographer;

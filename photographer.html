@@ -49,6 +49,15 @@
   </div>
 </section>
 
+    <div class="overlay" id="overlay">
+      <span class="close-btn" onclick="closeOverlay()">×</span>
+      <span class="prev" onclick="changeImage(-1)">❮</span>
+      <img id="mainImage" src="" class="popup-image">
+      <video id="mainVideo" class="popup-image" controls style="display: none;"></video>
+
+      <span class="next" onclick="changeImage(1)">❯</span>
+      <p id="caption"></p>
+    </div>
 
     <section class="media-info">
       <div class="media-stats">
