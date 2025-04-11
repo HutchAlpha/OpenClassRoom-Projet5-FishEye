@@ -1,4 +1,4 @@
-// Récupèration id URL
+// Récupération id URL
 const params = new URLSearchParams(window.location.search);
 const photographerId = parseInt(params.get('id'));
 
@@ -13,12 +13,9 @@ async function getPhotographerData() {
 
 // Affiche les informations du photographe
 async function displayPhotographer(photographer) {
-    const { name, city, country, tagline, portrait} = photographer;
-
-    const firstName = name.split(' ')[0]; 
-
+    const { name, city, country, tagline, portrait } = photographer;
+    const firstName = name.split(' ')[0];
     const picture = `assets/photographers/PhotographersPhotos/${portrait}`;
-
 
     document.querySelector('.photograph-header h1').textContent = name;
     document.querySelector('.photograph-header .location').textContent = `${city}, ${country}`;
@@ -29,136 +26,135 @@ async function displayPhotographer(photographer) {
     return firstName;
 }
 
+let currentIndex = 0;
+let mediaList = [];
+
+// Création d'un élément média (image/vidéo)
+function createMediaElement(item, firstName, index) {
+    let mediaElement;
+    const container = document.createElement('div');
+    container.className = 'PresentationPhotographe';
+
+    const blockMedia = document.createElement('div');
+    blockMedia.className = 'blockMedia';
+
+    if (item.image) {
+        mediaElement = document.createElement('img');
+        mediaElement.src = `assets/photographers/${firstName}/${item.image}`;
+        mediaElement.alt = item.title;
+    } else if (item.video) {
+        mediaElement = document.createElement('video');
+        mediaElement.controls = true;
+        const source = document.createElement('source');
+        source.src = `assets/photographers/${firstName}/${item.video}`;
+        source.type = 'video/mp4';
+        mediaElement.appendChild(source);
+    }
+
+    mediaElement.addEventListener("click", function () {
+        const overlay = document.querySelector(".overlay");
+        const mainImage = document.getElementById("mainImage");
+        const mainVideo = document.getElementById("mainVideo");
+        const caption = document.getElementById("caption");
+
+        currentIndex = index;
+
+        if (overlay) {
+            overlay.style.display = "block";
+            mainVideo.style.display = item.video ? "block" : "none";
+            mainImage.style.display = item.image ? "block" : "none";
+            mainImage.src = `assets/photographers/${firstName}/${item.image || ''}`;
+            mainVideo.src = `assets/photographers/${firstName}/${item.video || ''}`;
+            mainImage.alt = item.title;
+            caption.textContent = item.title;
+        }
+    });
+
+    const detailMedia = document.createElement('div');
+    detailMedia.className = 'detailMedia';
+
+    const title = document.createElement('h3');
+    title.textContent = item.title;
+
+    const likes = document.createElement('span');
+    likes.className = 'likes';
+    likes.textContent = `${item.likes} ♥`;
+
+    detailMedia.appendChild(title);
+    detailMedia.appendChild(likes);
+    blockMedia.appendChild(mediaElement);
+    blockMedia.appendChild(detailMedia);
+    container.appendChild(blockMedia);
+
+    return container;
+}
+
 // Affiche les médias
 function displayMedia(media, firstName) {
+    mediaList = media.map(item => ({ ...item, firstName }));
     const mediaSection = document.querySelector('.photographer-media');
     mediaSection.innerHTML = ''; // Reset du contenu
 
-    //Récolte tout les likes de la personnes
-    const TOTALlikes = media.reduce((depart, item) => depart + item.likes, 0);
+    const TOTALlikes = media.reduce((total, item) => total + item.likes, 0);
 
-    media.forEach(item => {
-        // Conteneur principal
-        const container = document.createElement('div');
-        container.className = 'PresentationPhotographe';
-
-        // Block média (image/vidéo + détails)
-        const blockMedia = document.createElement('div');
-        blockMedia.className = 'blockMedia';
-
-        // Création du média
-        let mediaElement;
-        if (item.image) {
-            mediaElement = document.createElement('img');
-            mediaElement.src = `assets/photographers/${firstName}/${item.image}`;
-            mediaElement.alt = item.title;
-
-            mediaElement.addEventListener("click", function() {
-                const overlay = document.querySelector(".overlay");
-                const mainImage = document.getElementById("mainImage");
-                const caption = document.getElementById("caption");
-
-                if (overlay) {
-                    overlay.style.display = "block";
-                    mainVideo.style.display = "none";
-                    mainImage.style.display = "block";
-                    mainImage.src = `assets/photographers/${firstName}/${item.image}`;
-                    mainImage.alt = item.title; 
-                    caption.textContent = item.title;
-                }
-            });
-
-        } else if (item.video) {
-            mediaElement = document.createElement('video');
-            mediaElement.controls = true;
-            const source = document.createElement('source');
-            source.src = `assets/photographers/${firstName}/${item.video}`;
-            source.type = 'video/mp4';
-            mediaElement.alt = item.title;
-            mediaElement.appendChild(source);
-
-            mediaElement.addEventListener("click", function() {
-                const overlay = document.querySelector(".overlay");
-                const mainVideo = document.getElementById("mainVideo");
-                const caption = document.getElementById("caption");
-            
-                if (overlay) {
-                    overlay.style.display = "block";
-                    mainImage.style.display = "none";
-                    mainVideo.style.display = "block";
-                    mainVideo.src = `assets/photographers/${firstName}/${item.video}`;
-                    caption.textContent = item.title;
-                }
-            });
-            
-        }
-
-
-        // Détails sous le média
-        const detailMedia = document.createElement('div');
-        detailMedia.className = 'detailMedia';
-
-        const title = document.createElement('h3');
-        title.textContent = item.title;
-        
-        const likes = document.createElement('span');
-        likes.className = 'likes';
-        likes.textContent = `${item.likes} ♥`;
-
-
-        detailMedia.appendChild(title);
-        detailMedia.appendChild(likes);
-        blockMedia.appendChild(mediaElement);
-        blockMedia.appendChild(detailMedia);
-        container.appendChild(blockMedia);
-        mediaSection.appendChild(container);
+    media.forEach((item, index) => {
+        const mediaElement = createMediaElement(item, firstName, index);
+        mediaSection.appendChild(mediaElement);
     });
+
     return TOTALlikes;
 }
 
-
-/*Affichage des détails lorsque click image*/
+// Affichage des détails lors du clic sur l'image/vidéo
 function closeOverlay() {
-    let closebtn = document.querySelector(".close-btn");
-
+    const closebtn = document.querySelector(".close-btn");
     closebtn.addEventListener("click", () => {
-        let overlay = document.querySelector(".overlay");
+        const overlay = document.querySelector(".overlay");
         overlay.style.display = "none";
     });
 }
 
-function changeImage(valeur){
+function changeImage(valeur) {
+    if (!mediaList.length) return;
 
-    if (valeur + 1 ) {
+    currentIndex = (currentIndex + valeur + mediaList.length) % mediaList.length;
+    const item = mediaList[currentIndex];
+    const overlay = document.querySelector(".overlay");
+    const mainImage = document.getElementById("mainImage");
+    const mainVideo = document.getElementById("mainVideo");
+    const caption = document.getElementById("caption");
 
-    }else{
-        
+    if (item.image) {
+        mainImage.src = `assets/photographers/${item.firstName}/${item.image}`;
+        mainImage.style.display = "flex";
+        mainVideo.style.display = "none";
+    } else if (item.video) {
+        mainVideo.src = `assets/photographers/${item.firstName}/${item.video}`;
+        mainVideo.style.display = "flex";
+        mainImage.style.display = "none";
     }
 
+    overlay.style.display = "flex";
+    caption.textContent = item.title;
 }
 
+function Prix(photographer, TOTALlikes) {
+    const { price } = photographer;
+    document.querySelector('.media-info .TOTALlikes').innerHTML = `${TOTALlikes} <span class="heart">♥</span>`;
+    document.querySelector('.media-info .price').textContent = `${price} €/ Jour`;
+}
 
-
-/*fin Affichage des détails lorsque click image*/
-
-
-    function Prix(photographer, TOTALlikes) {
-        const { price } = photographer;
-        document.querySelector('.media-info .TOTALlikes').innerHTML = `${TOTALlikes} <span class="heart">♥</span>`;
-        document.querySelector('.media-info .price').textContent = `${price} €/ Jour`;
+async function init() {
+    const { photographer, media } = await getPhotographerData();
+    
+    if (!photographer || !media.length) {
+        window.location.href = 'index.html';
+        return;
     }
-
-    async function init() {
-        const { photographer, media } = await getPhotographerData();
-        
-        if (!photographer || !media.length) {
-            window.location.href = 'index.html';
-            return;
-        }
-        const firstName = await displayPhotographer(photographer); 
-        const TOTALlikes = displayMedia(media, firstName);
-        Prix(photographer, TOTALlikes);
-    }
-
+    
+    const firstName = await displayPhotographer(photographer); 
+    const TOTALlikes = displayMedia(media, firstName);
+    Prix(photographer, TOTALlikes);
+}
 
 init();
