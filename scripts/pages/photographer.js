@@ -56,13 +56,15 @@ function displayMedia(media, firstName) {
             mediaElement.addEventListener("click", function() {
                 const overlay = document.querySelector(".overlay");
                 const mainImage = document.getElementById("mainImage");
-            
+                const caption = document.getElementById("caption");
+
                 if (overlay) {
                     overlay.style.display = "block";
                     mainVideo.style.display = "none";
                     mainImage.style.display = "block";
                     mainImage.src = `assets/photographers/${firstName}/${item.image}`;
                     mainImage.alt = item.title; 
+                    caption.textContent = item.title;
                 }
             });
 
@@ -72,17 +74,20 @@ function displayMedia(media, firstName) {
             const source = document.createElement('source');
             source.src = `assets/photographers/${firstName}/${item.video}`;
             source.type = 'video/mp4';
+            mediaElement.alt = item.title;
             mediaElement.appendChild(source);
 
             mediaElement.addEventListener("click", function() {
                 const overlay = document.querySelector(".overlay");
                 const mainVideo = document.getElementById("mainVideo");
+                const caption = document.getElementById("caption");
             
                 if (overlay) {
                     overlay.style.display = "block";
                     mainImage.style.display = "none";
                     mainVideo.style.display = "block";
                     mainVideo.src = `assets/photographers/${firstName}/${item.video}`;
+                    caption.textContent = item.title;
                 }
             });
             
@@ -110,6 +115,8 @@ function displayMedia(media, firstName) {
     });
     return TOTALlikes;
 }
+
+
 /*Affichage des détails lorsque click image*/
 function closeOverlay() {
     let closebtn = document.querySelector(".close-btn");
@@ -120,6 +127,15 @@ function closeOverlay() {
     });
 }
 
+function changeImage(valeur){
+
+    if (valeur + 1 ) {
+
+    }else{
+        
+    }
+
+}
 
 
 
