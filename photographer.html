@@ -9,36 +9,34 @@
     <link href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <img src="assets/images/logo.png" class="logo" alt="Logo Fisheye">
-    </header>
+  <header>
+      <img src="assets/images/logo.png" class="logo" alt="Logo Fisheye">
+  </header>
 
-    <main id="main">
-      <section class="photograph-header">
-        <div class="info">
-          <h1></h1>
-          <h3 class="location"></h3>
-          <p class="tagline"></p>
-        </div>
-        <button class="contact_button" onclick="displayModal()">Contactez-moi</button>
-        <img src="" alt="" class="photographer-img">
-      </section>
-    </main>
-
-
-
-    <section class="photographer-media">
-      <div class="media-controls">
-          <div class="sort-wrapper">
-              <label for="sort-select" class="sort-label">Trier par</label>
-              <select id="sort-select" class="sort-select">
-                  <option value="popularity">Popularité</option>
-                  <option value="date">Date</option>
-                  <option value="title">Titre</option>
-              </select>
-          </div>
+  <main id="main">
+    <section class="photograph-header">
+      <div class="info">
+        <h1></h1>
+        <h3 class="location"></h3>
+        <p class="tagline"></p>
       </div>
+      <button class="contact_button" onclick="displayModal()">Contactez-moi</button>
+      <img src="" alt="" class="photographer-img">
+    </section>
+  </main>
 
+<section class="zoneFiltre">
+  <div class="divFiltre">
+    <label for="sort-select" class="sort-label">Trier par</label>
+    <select id="sort-select" class="sort-select">
+      <option value="popularity">Popularité</option>
+      <option value="date">Date</option>
+      <option value="title">Titre</option>
+    </select>
+  </div>
+</section>
+  
+<section class="photographer-media">
   <div class="PresentationPhotographe">
     <div class="blockMedia">
       <!-- média ici -->
