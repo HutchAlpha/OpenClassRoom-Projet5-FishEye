@@ -57,10 +57,21 @@ function createMediaElement(item, firstName, index) {
         const mainVideo = document.getElementById("mainVideo");
         const caption = document.getElementById("caption");
 
+        const header = document.querySelector("header");
+        const main = document.getElementById("main");
+        const photographerMedia = document.querySelector(".photographer-media");
+        const contactModal = document.querySelector(".media-info");
+
         currentIndex = index;
 
         if (overlay) {
-            overlay.style.display = "block";
+            overlay.style.display = "flex";
+            
+            main.style.display = "none";
+            header.style.display = "none";
+            photographerMedia.style.display = "none";
+            contactModal.style.display = "none";
+
             mainVideo.style.display = item.video ? "block" : "none";
             mainImage.style.display = item.image ? "block" : "none";
             mainImage.src = `assets/photographers/${firstName}/${item.image || ''}`;
@@ -108,9 +119,20 @@ function displayMedia(media, firstName) {
 // Affichage des détails lors du clic sur l'image/vidéo
 function closeOverlay() {
     const closebtn = document.querySelector(".close-btn");
+
+    const header = document.querySelector("header");
+        const main = document.getElementById("main");
+        const photographerMedia = document.querySelector(".photographer-media");
+        const contactModal = document.querySelector(".media-info");
+
     closebtn.addEventListener("click", () => {
         const overlay = document.querySelector(".overlay");
         overlay.style.display = "none";
+        
+        main.style.display = "block";
+        header.style.display = "block";
+        photographerMedia.style.display = "flex";
+        contactModal.style.display = "flex";
     });
 }
 
