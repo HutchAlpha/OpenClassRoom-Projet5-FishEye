@@ -190,10 +190,22 @@ function changeImage(valeur) {
     caption.textContent = item.title;
 }
 
+
+
 function Prix(photographer, TOTALlikes) {
     const { price } = photographer;
     document.querySelector('.media-info .TOTALlikes').innerHTML = `${TOTALlikes} <span class="heart">♥</span>`;
     document.querySelector('.media-info .price').textContent = `${price} €/ Jour`;
+}
+
+// Affiche les informations du photographe
+async function formPhotographer(photographer) {
+    const { name } = photographer;
+    const contactModal = document.querySelector(".formhaut h2");
+
+    if (contactModal) {
+        contactModal.innerHTML = `Contactez-moi<br>${name}`;
+    }
 }
 
 async function init() {
@@ -205,6 +217,7 @@ async function init() {
     }
     
     const firstName = await displayPhotographer(photographer); 
+    formPhotographer(photographer);
     const TOTALlikes = displayMedia(media, firstName);
     Prix(photographer, TOTALlikes);
 }
