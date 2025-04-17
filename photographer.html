@@ -27,16 +27,22 @@
     </section>
   </main>
 
-<section class="zoneFiltre">
+  <section class="zoneFiltre">
   <div class="divFiltre">
-    <label for="sort-select" class="sort-label">Trier par</label>
-    <select id="sort-select" class="sort-select">
-      <option value="popularity">Popularité</option>
-      <option value="date">Date</option>
-      <option value="title">Titre</option>
-    </select>
+    <label for="filtre" class="etiquette-filtre">Trier par</label>
+    <div class="menu-deroulant" id="filtre" tabindex="0">
+      <button class="bouton-filtre" aria-haspopup="listbox" aria-expanded="false">
+        Popularité <span class="fleche">&#9660;</span>
+      </button>
+      <ul class="options-filtre" role="listbox">
+        <li class="option-filtre" data-valeur="popularity">Popularité</li>
+        <li class="option-filtre" data-valeur="date">Date</li>
+        <li class="option-filtre" data-valeur="title">Titre</li>
+      </ul>
+    </div>
   </div>
 </section>
+
   
 <section class="photographer-media">
   <div class="PresentationPhotographe">
@@ -90,7 +96,7 @@
                     <label for="message">Votre message</label>
                     <textarea class="text-control" id="message" name="message" rows="5"></textarea>
                 </div>
-                <button type="submit" class="contact_button">Envoyer</button>
+                <button type="submit" class="contact_form">Envoyer</button>
             </form>
         </div>
     </div>
