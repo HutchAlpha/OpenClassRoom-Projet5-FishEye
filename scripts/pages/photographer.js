@@ -17,7 +17,7 @@ async function getPhotographerData() {
     };
 }
 
-// Affiche les informations du photographe
+// Affiche les informations photographe
 async function displayPhotographer(photographer) {
     const { name, city, country, tagline, portrait } = photographer;
     const firstName = name.split(' ')[0];
@@ -95,7 +95,7 @@ function createMediaElement(item, firstName, index) {
     let liked = false;
     likes.textContent = `${item.likes} ♥`;
 
-    // Mise à jour du like lors du clic
+    // Maj like lors du clic
     likes.addEventListener("click", () => {
         if (!liked) {
             item.likes += 1;
@@ -125,7 +125,7 @@ function displayMedia(media, firstName) {
     });
     
     const mediaSection = document.querySelector('.photographer-media');
-    mediaSection.innerHTML = ''; // Réinitialise le contenu
+    mediaSection.innerHTML = ''; 
 
     mediaList.forEach((item, index) => {
         const mediaElement = createMediaElement(item, firstName, index);

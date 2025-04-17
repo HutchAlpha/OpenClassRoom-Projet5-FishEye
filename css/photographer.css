@@ -100,6 +100,7 @@
 }
 /*FIN ZONE Filtre*/
 
+  
 /*IMG / Vid*/
 .photographer-media{
     display: flex;
@@ -351,4 +352,20 @@ textarea.text-control {
 .contact_button:hover { 
     background-color: #7d1919; 
 }
+
+.formData[data-error-visible="true"]::after {
+    content: attr(data-error);
+    color: #7d1919;
+    font-size: 0.9em;
+    display: block;
+    margin-top: 5px;
+  }
+  
+  .successMessage {
+    color: green;
+    font-weight: bold;
+    display: none;
+    font-size: 1rem;
+  }
+
 /*Fin form*/
