@@ -28,7 +28,7 @@ async function displayPhotographer(photographer) {
     document.querySelector('.photograph-header img').src = picture;
     document.querySelector('.photograph-header img').alt = name;
 
-    return firstName;
+    return { firstName, fullName: name };
 }
 
 // Maj affichage total (likes et prix)
@@ -39,7 +39,7 @@ function updateLikesDisplay() {
 }
 
 
-function createMediaElement(item, firstName, index) {
+function createMediaElement(item, firstName, fullName, index) {
     let mediaElement;
     const container = document.createElement('div');
     container.className = 'PresentationPhotographe';
@@ -49,7 +49,8 @@ function createMediaElement(item, firstName, index) {
     if (item.image) {
         mediaElement = document.createElement('img');
         mediaElement.src = `assets/photographers/${firstName}/${item.image}`;
-        mediaElement.alt = item.title;
+        mediaElement.setAttribute('alt', `${item.title} - ${fullName}`);
+
     } else if (item.video) {
         mediaElement = document.createElement('video');
         mediaElement.controls = true;
@@ -57,6 +58,7 @@ function createMediaElement(item, firstName, index) {
         source.src = `assets/photographers/${firstName}/${item.video}`;
         source.type = 'video/mp4';
         mediaElement.appendChild(source);
+        mediaElement.setAttribute('alt', `${item.title} - ${fullName}`);
     }
 
     // Affichage du média en mode overlay lors du clic
@@ -117,9 +119,11 @@ function createMediaElement(item, firstName, index) {
 }
 
 // Affiche les médias et stocke le tableau dans mediaList
-function displayMedia(media, firstName) {
+function displayMedia(media, firstName, fullName) {
+
     mediaList = media.map(item => {
         item.firstName = firstName;
+        item.fullName = fullName;
         return item;
     });
     
@@ -127,7 +131,7 @@ function displayMedia(media, firstName) {
     mediaSection.innerHTML = ''; 
 
     mediaList.forEach((item, index) => {
-        const mediaElement = createMediaElement(item, firstName, index);
+        const mediaElement = createMediaElement(item, firstName, fullName, index);
         mediaSection.appendChild(mediaElement);
     });
 }
@@ -178,7 +182,8 @@ function trierMedia(critere) {
   const container = document.querySelector('.photographer-media');
   container.innerHTML = '';
   mediaList.forEach((item, index) => {
-    const element = createMediaElement(item, item.firstName, index);
+    const element = createMediaElement(item, item.firstName, item.fullName, index);
+
     container.appendChild(element);
   });
 }
@@ -223,6 +228,24 @@ function closeOverlay() {
         document.querySelector(".media-info").style.display = "flex";
     });
 }
+// Navigation clavier
+document.addEventListener('keydown', (e) => {
+    const overlay = document.querySelector(".overlay");
+    if (overlay.style.display === "flex") {
+        if (e.key === 'ArrowRight') {
+            changeImage(1); // Suivant
+        } else if (e.key === 'ArrowLeft') {
+            changeImage(-1); // Précédent
+        } else if (e.key === 'Escape') {
+            overlay.style.display = "none";
+            document.getElementById("main").style.display = "block";
+            document.querySelector("header").style.display = "block";
+            document.querySelector(".zoneFiltre").style.display = "flex";
+            document.querySelector(".photographer-media").style.display = "flex";
+            document.querySelector(".media-info").style.display = "flex";
+        }
+    }
+});
 
 //!FIN Overlay
 // Affiche le formulaire de contact avec le nom du photographe
@@ -244,9 +267,9 @@ async function init() {
     }
     
     currentPhotographer = photographer;
-    const firstName = await displayPhotographer(photographer);
+    const { firstName, fullName } = await displayPhotographer(photographer);
     formPhotographer(photographer);
-    displayMedia(media, firstName);
+    displayMedia(media, firstName, fullName);
     updateLikesDisplay();
     closeOverlay();
 }

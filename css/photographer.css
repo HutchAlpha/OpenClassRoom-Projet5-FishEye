@@ -2,6 +2,11 @@
     display: none;
 }
 /*Header*/
+
+.logo {
+    width: 200px;
+    height: auto;
+}
 .photograph-header {
     display: flex;
     justify-content: space-between;
@@ -34,7 +39,7 @@
 
 .photograph-header .tagline {
     font-size: 1rem;
-    color: #777;
+    color: #444;
 }
 
 .contact_button {
