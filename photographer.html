@@ -12,7 +12,7 @@
 <body>
   <header>
     <a href="index.html">
-    <img src="assets/images/logo.png" class="logo" alt="Logo Fisheye">
+    <img src="assets/images/logo.png" class="logo" alt="Fikriye Home page">
     </a>
   </header>
 
@@ -23,22 +23,22 @@
         <h2 class="location"></h2>
         <p class="tagline"></p>
       </div>
-      <button class="contact_button" onclick="displayModal()">Contactez-moi</button>
+      <button class="contact_button" onclick="displayModal()" alt="Contact Me ">Contactez-moi</button>
       <img src="" alt="" class="photographer-img">
     </section>
   </main>
 
   <section class="zoneFiltre">
   <div class="divFiltre">
-    <label for="filtre" class="etiquette-filtre">Trier par</label>
+    <label for="filtre" class="etiquette-filtre" alt="Order by">Trier par</label>
     <div class="menu-deroulant" id="filtre" tabindex="0">
       <button class="bouton-filtre" aria-haspopup="listbox" aria-expanded="false">
         Popularité <span class="fleche">&#9660;</span>
       </button>
       <ul class="options-filtre" role="listbox">
-        <li class="option-filtre" data-valeur="popularity">Popularité</li>
-        <li class="option-filtre" data-valeur="date">Date</li>
-        <li class="option-filtre" data-valeur="title">Titre</li>
+        <li class="option-filtre" data-valeur="popularity" alt="popularity">Popularité</li>
+        <li class="option-filtre" data-valeur="date" alt="date">Date</li>
+        <li class="option-filtre" data-valeur="title" alt="title">Titre</li>
       </ul>
     </div>
   </div>
@@ -57,12 +57,12 @@
 </section>
 
     <div class="overlay" id="overlay">
-      <span class="close-btn" onclick="closeOverlay()">×</span>
-      <span class="prev" onclick="changeImage(-1)">❮</span>
+      <span class="close-btn" onclick="closeOverlay()" alt="Close dialog">×</span>
+      <span class="prev" onclick="changeImage(-1)" alt="Previous Image">❮</span>
       <img id="mainImage" src="" class="popup-image">
       <video id="mainVideo" class="popup-image" controls style="display: none;"></video>
       <p id="caption"></p>
-      <span class="next" onclick="changeImage(1)">❯</span>
+      <span class="next" onclick="changeImage(1)" alt="Next Image">❯</span>
     </div>
 
     <section class="media-info">

@@ -34,7 +34,10 @@ async function displayPhotographer(photographer) {
 // Maj affichage total (likes et prix)
 function updateLikesDisplay() {
     const totalLikes = mediaList.reduce((total, item) => total + item.likes, 0);
-    document.querySelector('.media-info .TOTALlikes').innerHTML = `${totalLikes} <span class="heart">♥</span>`;
+    document.querySelector('.media-info .TOTALlikes').innerHTML = `
+  <span alt="${totalLikes} likes"> 
+    ${totalLikes} <span class="heart" aria-hidden="true">♥</span> 
+  </span>`;
     document.querySelector('.media-info .price').textContent = `${currentPhotographer.price} €/ Jour`;
 }
 
@@ -93,6 +96,7 @@ function createMediaElement(item, firstName, fullName, index) {
     
     const likes = document.createElement('span');
     likes.className = 'likes';
+    likes.setAttribute('alt', 'likes');
     let liked = false;
     likes.textContent = `${item.likes} ♥`;
 
