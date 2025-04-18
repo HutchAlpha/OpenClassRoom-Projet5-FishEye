@@ -8,7 +8,7 @@ let currentIndex = 0;
 
 // Récupération données photographe +  médias
 async function getPhotographerData() {
-    const response = await fetch('../data/photographers.json');
+    const response = await fetch("data/photographers.json");
     const data = await response.json();
     return {
         photographer: data.photographers.find(p => p.id === photographerId),
@@ -53,6 +53,7 @@ function createMediaElement(item, firstName, fullName, index) {
         mediaElement = document.createElement('img');
         mediaElement.src = `assets/photographers/${firstName}/${item.image}`;
         mediaElement.setAttribute('alt', `${item.title} - ${fullName}`);
+        mediaElement.setAttribute('tabindex', '0');
 
     } else if (item.video) {
         mediaElement = document.createElement('video');
@@ -237,9 +238,9 @@ document.addEventListener('keydown', (e) => {
     const overlay = document.querySelector(".overlay");
     if (overlay.style.display === "flex") {
         if (e.key === 'ArrowRight') {
-            changeImage(1); // Suivant
+            changeImage(1);
         } else if (e.key === 'ArrowLeft') {
-            changeImage(-1); // Précédent
+            changeImage(-1); 
         } else if (e.key === 'Escape') {
             overlay.style.display = "none";
             document.getElementById("main").style.display = "block";
