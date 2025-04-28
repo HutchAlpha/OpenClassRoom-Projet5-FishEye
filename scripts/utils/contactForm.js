@@ -57,7 +57,6 @@ function traitementFormulaire(event) {
         Message : ${message.value};
     `)
 
-        // Affichage du message de succès
         const successMessage = document.getElementById("successMessage");
         successMessage.style.display = "block";
 
@@ -85,6 +84,5 @@ function showError(element, message) {
       field.removeAttribute("data-error-visible");
       const successMessage = document.getElementById("successMessage");
       successMessage.style.display = "none";
-   
     });
   }

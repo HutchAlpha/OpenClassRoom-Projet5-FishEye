@@ -1,4 +1,4 @@
-// Récupération ID du photographe dans l'URL
+//! Récupération ID du photographe dans l'URL
 const params = new URLSearchParams(window.location.search);
 const photographerId = parseInt(params.get('id'));
 
@@ -6,7 +6,7 @@ let currentPhotographer = null;
 let mediaList = [];
 let currentIndex = 0;
 
-// Récupération données photographe +  médias
+//! Récupération données photographe +  médias
 async function getPhotographerData() {
     const response = await fetch("data/photographers.json");
     const data = await response.json();
@@ -16,7 +16,7 @@ async function getPhotographerData() {
     };
 }
 
-// Affichage infos photographe
+//! Affichage infos photographe
 async function displayPhotographer(photographer) {
     const { name, city, country, tagline, portrait } = photographer;
     const firstName = name.split(' ')[0];
@@ -31,7 +31,7 @@ async function displayPhotographer(photographer) {
     return { firstName, fullName: name };
 }
 
-// Maj affichage total (likes et prix)
+//! Maj affichage total (likes et prix)
 function updateLikesDisplay() {
     const totalLikes = mediaList.reduce((total, item) => total + item.likes, 0);
     document.querySelector('.media-info .TOTALlikes').innerHTML = `
@@ -65,7 +65,7 @@ function createMediaElement(item, firstName, fullName, index) {
         mediaElement.setAttribute('alt', `${item.title} - ${fullName}`);
     }
 
-    // Affichage du média en mode overlay lors du clic
+    //! Affichage du média en mode overlay lors du clic
     mediaElement.addEventListener("click", function () {
         const overlay = document.querySelector(".overlay");
         const mainImage = document.getElementById("mainImage");
@@ -123,7 +123,9 @@ function createMediaElement(item, firstName, fullName, index) {
     return container;
 }
 
-// Affiche les médias et stocke le tableau dans mediaList
+
+//! Filtre des médias
+//? Stockage en tableau dans mediaList
 function displayMedia(media, firstName, fullName) {
 
     mediaList = media.map(item => {
@@ -139,9 +141,10 @@ function displayMedia(media, firstName, fullName) {
         const mediaElement = createMediaElement(item, firstName, fullName, index);
         mediaSection.appendChild(mediaElement);
     });
+    console.log('mediaList après enrichissement :', mediaList);
 }
 
-//! Filtre des médias
+//? Filtre des médias
 const boutonFiltre = document.querySelector('.bouton-filtre');
 const menuOptions = document.querySelector('.options-filtre');
 const options = document.querySelectorAll('.option-filtre');
@@ -162,14 +165,6 @@ options.forEach(option => {
     // Simuler sélection
     trierMedia(valeur);
   });
-});
-
-// Ferme le menu 
-document.addEventListener('click', (e) => {
-  if (!e.target.closest('.menu-deroulant')) {
-    menuOptions.style.display = 'none';
-    boutonFiltre.setAttribute('aria-expanded', 'false');
-  }
 });
 
 function trierMedia(critere) {
@@ -195,7 +190,7 @@ function trierMedia(critere) {
 //!FIN Filtre des médias
 
 //!Overlay
-// Navigation l'overlay
+//? Navigation l'overlay
 function changeImage(valeur) {
     if (!mediaList.length) return;
     
@@ -219,7 +214,7 @@ function changeImage(valeur) {
     caption.textContent = item.title;
 }
 
-// Fermeture de l'overlay
+//? Fermeture de l'overlay
 function closeOverlay() {
     const closebtn = document.querySelector(".close-btn");
     closebtn.addEventListener("click", () => {
@@ -233,7 +228,7 @@ function closeOverlay() {
         document.querySelector(".media-info").style.display = "flex";
     });
 }
-// Navigation clavier
+//? Navigation clavier
 document.addEventListener('keydown', (e) => {
     const overlay = document.querySelector(".overlay");
     if (overlay.style.display === "flex") {
@@ -253,7 +248,9 @@ document.addEventListener('keydown', (e) => {
 });
 
 //!FIN Overlay
-// Affiche le formulaire de contact avec le nom du photographe
+
+//!Formulaire Contact
+//? Formulaire personnalisé
 async function formPhotographer(photographer) {
     const { name } = photographer;
     const contactModal = document.querySelector(".formhaut h2");
@@ -261,8 +258,11 @@ async function formPhotographer(photographer) {
         contactModal.innerHTML = `Contactez-moi<br>${name}`;
     }
 }
+//!FIN Formulaire Contact
 
-// Initialisation
+
+
+//! Initialisation
 async function init() {
     const { photographer, media } = await getPhotographerData();
     
