@@ -41,7 +41,7 @@ function updateLikesDisplay() {
     document.querySelector('.media-info .price').textContent = `${currentPhotographer.price} €/ Jour`;
 }
 
-
+//!Creation IMG / VID
 function createMediaElement(item, firstName, fullName, index) {
     let mediaElement;
     const container = document.createElement('div');
@@ -90,6 +90,9 @@ function createMediaElement(item, firstName, fullName, index) {
         }
     });
 
+
+//!Likes individuels
+
     const detailMedia = document.createElement('div'); 
     detailMedia.className = 'detailMedia';
     const title = document.createElement('h3');
@@ -122,7 +125,7 @@ function createMediaElement(item, firstName, fullName, index) {
     
     return container;
 }
-
+//!FIN Likes individuels
 
 //! Filtre des médias
 //? Stockage en tableau dans mediaList
@@ -246,7 +249,6 @@ document.addEventListener('keydown', (e) => {
         }
     }
 });
-
 //!FIN Overlay
 
 //!Formulaire Contact
@@ -258,9 +260,6 @@ async function formPhotographer(photographer) {
         contactModal.innerHTML = `Contactez-moi<br>${name}`;
     }
 }
-//!FIN Formulaire Contact
-
-
 
 //! Initialisation
 async function init() {
