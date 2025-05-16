@@ -17,19 +17,68 @@ async function getPhotographerData() {
 }
 
 //! Affichage infos photographe
-async function displayPhotographer(photographer) {
-    const { name, city, country, tagline, portrait } = photographer;
-    const firstName = name.split(' ')[0];
-    const picture = `assets/photographers/PhotographersPhotos/${portrait}`;
+class Photographer {
+    constructor(data) {
+        this.id = data.id;
+        this.name = data.name;
+        this.city = data.city;
+        this.country = data.country;
+        this.tagline = data.tagline;
+        this.portrait = data.portrait;
+        this.picture = `assets/photographers/PhotographersPhotos/${this.portrait}`;
+    }
 
-    document.querySelector('.photograph-header h1').textContent = name;
-    document.querySelector('.photograph-header .location').textContent = `${city}, ${country}`;
-    document.querySelector('.photograph-header .tagline').textContent = tagline;
-    document.querySelector('.photograph-header img').src = picture;
-    document.querySelector('.photograph-header img').alt = name;
+    get firstName() {
+        return this.name.split(' ')[0];
+    }
 
-    return { firstName, fullName: name };
+    displayProfileHeader() {
+        const main = document.getElementById('main');
+
+        const section = document.createElement('section');
+        section.className = 'photograph-header';
+
+        // .info
+        const infoDiv = document.createElement('div');
+        infoDiv.className = 'info';
+
+        const h1 = document.createElement('h1');
+        h1.textContent = this.name;
+
+        const h2 = document.createElement('h2');
+        h2.className = 'location';
+        h2.textContent = `${this.city}, ${this.country}`;
+
+        const p = document.createElement('p');
+        p.className = 'tagline';
+        p.textContent = this.tagline;
+
+        infoDiv.appendChild(h1);
+        infoDiv.appendChild(h2);
+        infoDiv.appendChild(p);
+
+        // bouton
+        const button = document.createElement('button');
+        button.className = 'contact_button';
+        button.setAttribute('onclick', 'displayModal()');
+        button.setAttribute('alt', 'Contact Me');
+        button.textContent = 'Contactez-moi';
+
+        // image
+        const img = document.createElement('img');
+        img.className = 'photographer-img';
+        img.setAttribute('src', this.picture);
+        img.setAttribute('alt', `Photo de ${this.name}`);
+
+        // composition finale
+        section.appendChild(infoDiv);
+        section.appendChild(button);
+        section.appendChild(img);
+        main.appendChild(section);
+    }
 }
+
+
 
 //! Maj affichage total (likes et prix)
 function updateLikesDisplay() {
@@ -265,14 +314,18 @@ async function formPhotographer(photographer) {
 async function init() {
     const { photographer, media } = await getPhotographerData();
     
+    const photographerInstance = new Photographer(photographer);
+    photographerInstance.displayProfileHeader();
+    
+    const firstName = photographerInstance.firstName;
+    const fullName = photographerInstance.name;
+    
     if (!photographer || !media.length) {
         window.location.href = 'index.html';
         return;
     }
     
     currentPhotographer = photographer;
-    const { firstName, fullName } = await displayPhotographer(photographer);
-    formPhotographer(photographer);
     displayMedia(media, firstName, fullName);
     updateLikesDisplay();
     closeOverlay();

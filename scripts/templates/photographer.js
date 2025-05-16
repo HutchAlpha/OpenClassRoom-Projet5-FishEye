@@ -1,40 +1,44 @@
-function photographerTemplate(data) {
-    const { id, name, portrait, city, country, tagline, price} = data;
+class Photographer {
+    constructor(data) {
+        this.id = data.id;
+        this.name = data.name;
+        this.portrait = data.portrait;
+        this.city = data.city;
+        this.country = data.country;
+        this.tagline = data.tagline;
+        this.price = data.price;
+        this.picture = `assets/photographers/PhotographersPhotos/${this.portrait}`;
+    }
 
-    const picture = `assets/photographers/PhotographersPhotos/${portrait}`;
-
-    function getUserCardDOM() {
+    createCard() {
         const article = document.createElement('article');
 
-        // Création du liens qui renvoir au photographe !
-        const link = document.createElement("a");
-        link.setAttribute("href", `photographer.html?id=${id}`);
-    
+        const link = document.createElement('a');
+        link.href = `photographer.html?id=${this.id}`;
+
         const img = document.createElement('img');
-        img.setAttribute("src", picture);
-        img.setAttribute("alt", `Photo de ${name}`);
-        link.appendChild(img); 
-    
-        // Créer les autres éléments
-        const h2 = document.createElement("h2");
-        h2.textContent = name;
-    
+        img.src = this.picture;
+        img.alt = `Photo de ${this.name}`;
+        link.appendChild(img);
+
+        const h2 = document.createElement('h2');
+        h2.textContent = this.name;
+
         const h3 = document.createElement('h3');
-        h3.textContent = `${city}, ${country}`;
-    
-        const p = document.createElement('p');
-        p.textContent = tagline;
-    
-        const priceP = document.createElement('p'); 
-        priceP.textContent = `${price}€/jour`;
-    
-        // Ajouter les éléments à l'article
-        article.appendChild(link); 
+        h3.textContent = `${this.city}, ${this.country}`;
+
+        const pTagline = document.createElement('p');
+        pTagline.textContent = this.tagline;
+
+        const pPrice = document.createElement('p');
+        pPrice.textContent = `${this.price}€/jour`;
+
+        article.appendChild(link);
         article.appendChild(h2);
         article.appendChild(h3);
-        article.appendChild(p);
-        article.appendChild(priceP);
-        return (article);
+        article.appendChild(pTagline);
+        article.appendChild(pPrice);
+
+        return article;
     }
-    return { id, name, portrait, city, country, tagline, price, getUserCardDOM }
 }
