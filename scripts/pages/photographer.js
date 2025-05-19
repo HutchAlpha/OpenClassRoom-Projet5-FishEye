@@ -123,8 +123,8 @@ function createMediaElement(item, firstName, fullName, index) {
         currentIndex = index;
         if (overlay) {
             overlay.style.display = "flex";
-            document.querySelector("header").style.display = "none";
-            document.getElementById("main").style.display = "none";
+            document.querySelector("nav").style.display = "none";
+            document.getElementById("header").style.display = "none";
             document.querySelector(".zoneFiltre").style.display = "none";
             document.querySelector(".photographer-media").style.display = "none";
             document.querySelector(".media-info").style.display = "none";
@@ -272,7 +272,7 @@ function closeOverlay() {
         const overlay = document.querySelector(".overlay");
         overlay.style.display = "none";
 
-        document.getElementById("main").style.display = "block";
+        document.getElementById("header").style.display = "block";
         document.querySelector("header").style.display = "block";
         document.querySelector(".zoneFiltre").style.display = "flex";
         document.querySelector(".photographer-media").style.display = "flex";
@@ -289,7 +289,7 @@ document.addEventListener('keydown', (e) => {
             changeImage(-1); 
         } else if (e.key === 'Escape') {
             overlay.style.display = "none";
-            document.getElementById("main").style.display = "block";
+            document.getElementById("header").style.display = "block";
             document.querySelector("header").style.display = "block";
             document.querySelector(".zoneFiltre").style.display = "flex";
             document.querySelector(".photographer-media").style.display = "flex";

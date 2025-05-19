@@ -19,7 +19,7 @@
   <header id="header" aria-label="Présentation du photographe"></header>
 
 
-  <section class="zoneFiltre">
+  <main class="zoneFiltre">
   <div class="divFiltre" aria="Zone de tri par popularité / Date ou encore Titre">
     <p for="filtre" class="etiquette-filtre" alt="Order by">Trier par</p>
     <div class="menu-deroulant" id="filtre" tabindex="0">
@@ -33,10 +33,10 @@
       </ul>
     </div>
   </div>
-</section>
+</main>
 
   
-<section class="photographer-media" aria="Espace photo / vidéo prise par le/la photographe">
+<main class="photographer-media" aria="Espace photo / vidéo prise par le/la photographe">
   <div class="PresentationPhotographe">
     <div class="blockMedia">
       <!-- média ici -->
@@ -45,25 +45,25 @@
       </div>
     </div>
   </div>
-</section>
+</main>
 
-    <div class="overlay" id="overlay" aria="Overlay de la photo ou de la vidéo">
+    <main class="overlay" id="overlay" aria="Overlay de la photo ou de la vidéo">
       <span class="close-btn" onclick="closeOverlay()" alt="Close dialog">×</span>
       <span class="prev" onclick="changeImage(-1)" alt="Previous Image">❮</span>
       <img id="mainImage" src="" class="popup-image" alt="IMG overlay">
       <video id="mainVideo" class="popup-image" controls style="display: none;"></video>
       <p id="caption"></p>
       <span class="next" onclick="changeImage(1)" alt="Next Image">❯</span>
-    </div>
+</main>
 
-    <section class="media-info" aria="Infos total de likes + prix du photographe">
-      <div class="media-stats">
-        <span class="TOTALlikes"></span>
-        <span class="price"></span>
-      </div>
-    </section>
+<main class="media-info" aria="Infos total de likes + prix du photographe">
+  <div class="media-stats">
+    <span class="TOTALlikes"></span>
+    <span class="price"></span>
+  </div>
+</main>
 
-    <div class="contactModal" id="contact_modal" aria="Formulaire de contact">
+    <main class="contactModal" id="contact_modal" aria="Formulaire de contact">
         <div class="formulaireContact">
             <div class="formhaut">
                 <h2>Contactez-moi<br>Mimi Keel</h2>
@@ -91,7 +91,7 @@
                 <button type="submit" class="contact_form">Envoyer</button>
             </form>
         </div>
-    </div>
+</main>
 
     <script src="scripts/pages/photographer.js"></script>
     <script src="scripts/utils/contactForm.js"></script>
