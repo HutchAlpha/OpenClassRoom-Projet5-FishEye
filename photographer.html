@@ -22,15 +22,15 @@
   <main class="zoneFiltre">
   <div class="divFiltre" aria="Zone de tri par popularité / Date ou encore Titre">
     <p for="filtre" class="etiquette-filtre" alt="Order by">Trier par</p>
-    <div class="menu-deroulant" id="filtre" tabindex="0">
+    <div class="menu-deroulant" id="filtre" tabindex="0" aria-haspopup="listbox" aria-expanded="false">
       <button class="bouton-filtre" aria-haspopup="listbox" aria-expanded="false">
         Popularité <span class="fleche">&#9660;</span>
       </button>
-      <ul class="options-filtre" role="listbox">
-        <li class="option-filtre" data-valeur="popularity" alt="popularity">Popularité</li>
-        <li class="option-filtre" data-valeur="date" alt="date">Date</li>
-        <li class="option-filtre" data-valeur="title" alt="title">Titre</li>
-      </ul>
+      <div class="options-filtre" role="listbox" style="display: none;">
+          <div class="option-filtre" data-valeur="popularity">Popularité</div>
+          <div class="option-filtre" data-valeur="date">Date</div>
+          <div class="option-filtre" data-valeur="title">Titre</div>
+      </div>
     </div>
   </div>
 </main>

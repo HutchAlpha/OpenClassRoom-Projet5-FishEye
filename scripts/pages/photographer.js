@@ -176,68 +176,84 @@ function createMediaElement(item, firstName, fullName, index) {
 //!FIN Likes individuels
 
 //! Filtre des médias
-//? Stockage en tableau dans mediaList
+
+// Affichage initial des médias
 function displayMedia(media, firstName, fullName) {
-
-    mediaList = media.map(item => {
-        item.firstName = firstName;
-        item.fullName = fullName;
-        return item;
-    });
-    
-    const mediaSection = document.querySelector('.photographer-media');
-    mediaSection.innerHTML = ''; 
-
-    mediaList.forEach((item, index) => {
-        const mediaElement = createMediaElement(item, firstName, fullName, index);
-        mediaSection.appendChild(mediaElement);
-    });
-    console.log('mediaList après enrichissement :', mediaList);
+  mediaList = media.map(item => ({ ...item, firstName, fullName }));
+  const mediaSection = document.querySelector('.photographer-media');
+  mediaSection.innerHTML = '';
+  mediaList.forEach((item, index) => {
+    mediaSection.appendChild(createMediaElement(item, firstName, fullName, index));
+  });
 }
 
-//? Filtre des médias
-const boutonFiltre = document.querySelector('.bouton-filtre');
-const menuOptions = document.querySelector('.options-filtre');
-const options = document.querySelectorAll('.option-filtre');
+const boutonFiltre = document.querySelector('.menu-deroulant');
+const labelFiltre  = document.querySelector('.etiquette-filtre');
+const menuOptions  = document.querySelector('.options-filtre');
+const options      = document.querySelectorAll('.option-filtre');
 
-boutonFiltre.addEventListener('click', () => {
-  const isExpanded = boutonFiltre.getAttribute('aria-expanded') === 'true';
-  boutonFiltre.setAttribute('aria-expanded', !isExpanded);
-  menuOptions.style.display = isExpanded ? 'none' : 'block';
+boutonFiltre.setAttribute('aria-haspopup', 'listbox');
+boutonFiltre.setAttribute('aria-expanded', 'false');
+
+// Ouvre/ferme le menu (clic ou clavier)
+function toggleMenu() {
+  const expanded = boutonFiltre.getAttribute('aria-expanded') === 'true';
+  boutonFiltre.setAttribute('aria-expanded', String(!expanded));
+  menuOptions.style.display = expanded ? 'none' : 'block';
+}
+
+boutonFiltre.addEventListener('click', toggleMenu);
+boutonFiltre.addEventListener('keydown', e => {
+  if (e.key === 'Enter' || e.key === ' ') {
+    e.preventDefault();
+    toggleMenu();
+  }
 });
 
-options.forEach(option => {
-  option.addEventListener('click', () => {
-    const valeur = option.getAttribute('data-valeur');
-    boutonFiltre.innerHTML = `${option.textContent} <span class="fleche">&#9660;</span>`;
-    boutonFiltre.setAttribute('aria-expanded', 'false');
-    menuOptions.style.display = 'none';
+// Appliquer le filtre
+function appliquerFiltre(option) {
+  const critere = option.dataset.valeur;
+  const btn = boutonFiltre.querySelector('.bouton-filtre');
+  btn.innerHTML = `${option.textContent} <span class="fleche">&#9660;</span>`;
+  boutonFiltre.setAttribute('aria-expanded', 'false');
+  menuOptions.style.display = 'none';
+  trierMedia(critere);
+}
 
-    // Simuler sélection
-    trierMedia(valeur);
+// Attacher listeners aux options
+options.forEach(option => {
+  option.setAttribute('role', 'option');
+  option.setAttribute('tabindex', '0');
+  
+  option.addEventListener('click', () => appliquerFiltre(option));
+  
+  option.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      appliquerFiltre(option);
+    }
   });
 });
 
+// Fonction de tri
 function trierMedia(critere) {
-  let mediasTries = [...mediaList];
-
-  if (critere === "popularity") {
-    mediasTries.sort((a, b) => b.likes - a.likes);
-  } else if (critere === "date") {
-    mediasTries.sort((a, b) => new Date(a.date) - new Date(b.date));
-  } else if (critere === "title") {
-    mediasTries.sort((a, b) => a.title.localeCompare(b.title));
+  const sorted = [...mediaList];
+  if (critere === 'popularity') {
+    sorted.sort((a, b) => b.likes - a.likes);
+  } else if (critere === 'date') {
+    sorted.sort((a, b) => new Date(a.date) - new Date(b.date));
+  } else if (critere === 'title') {
+    sorted.sort((a, b) => a.title.localeCompare(b.title));
   }
-
-  mediaList = mediasTries;
+  // Réaffichage
+  mediaList = sorted;
   const container = document.querySelector('.photographer-media');
   container.innerHTML = '';
-  mediaList.forEach((item, index) => {
-    const element = createMediaElement(item, item.firstName, item.fullName, index);
-
-    container.appendChild(element);
+  mediaList.forEach((item, idx) => {
+    container.appendChild(createMediaElement(item, item.firstName, item.fullName, idx));
   });
 }
+
 //!FIN Filtre des médias
 
 //!Overlay
