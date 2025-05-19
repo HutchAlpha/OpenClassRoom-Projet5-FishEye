@@ -7,6 +7,7 @@ class Photographer {
         this.country = data.country;
         this.tagline = data.tagline;
         this.price = data.price;
+        
         this.picture = `assets/photographers/PhotographersPhotos/${this.portrait}`;
     }
 

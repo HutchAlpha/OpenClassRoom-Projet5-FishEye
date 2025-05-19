@@ -16,7 +16,7 @@ async function getPhotographerData() {
     };
 }
 
-//! Affichage infos photographe
+//! Header -_=> Informations du photographe
 class Photographer {
     constructor(data) {
         this.id = data.id;
@@ -33,12 +33,11 @@ class Photographer {
     }
 
     displayProfileHeader() {
-        const main = document.getElementById('main');
+        const header = document.getElementById('header');
 
         const section = document.createElement('section');
         section.className = 'photograph-header';
 
-        // .info
         const infoDiv = document.createElement('div');
         infoDiv.className = 'info';
 
@@ -69,12 +68,12 @@ class Photographer {
         img.className = 'photographer-img';
         img.setAttribute('src', this.picture);
         img.setAttribute('alt', `Photo de ${this.name}`);
+        img.setAttribute('tabindex', '0');
 
-        // composition finale
         section.appendChild(infoDiv);
         section.appendChild(button);
         section.appendChild(img);
-        main.appendChild(section);
+        header.appendChild(section);
     }
 }
 
@@ -319,7 +318,7 @@ async function init() {
     
     const firstName = photographerInstance.firstName;
     const fullName = photographerInstance.name;
-    
+
     if (!photographer || !media.length) {
         window.location.href = 'index.html';
         return;
@@ -327,8 +326,8 @@ async function init() {
     
     currentPhotographer = photographer;
     displayMedia(media, firstName, fullName);
-    updateLikesDisplay();
     closeOverlay();
+    updateLikesDisplay();
 }
 
 init();
