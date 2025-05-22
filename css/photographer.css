@@ -277,11 +277,13 @@
   
   .close-btn {
     top: 10px;
+    border: 0px;
     right: 20px;
     font-size: 50px;
-    color : #8d1b1b;
+    background-color: white;
+    color: #8d1b1b;
   }
-  
+
   .prev {
     top: 50%;
     left: 20px;
@@ -387,12 +389,6 @@
     line-height: 1.2; 
     font-weight: normal; 
 }
-
-.close-btn { 
-    cursor: pointer; 
-    width: 32px; 
-    height: 32px; 
-} 
 
 form { 
     display: flex; 

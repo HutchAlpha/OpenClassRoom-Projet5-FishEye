@@ -101,6 +101,7 @@ function createMediaElement(item, firstName, fullName, index) {
   const blockMedia = document.createElement('div');
   blockMedia.className = 'blockMedia';
 
+  // Création de l'image ou de la vidéo
   if (item.image) {
     mediaElement = document.createElement('img');
     mediaElement.src = `assets/photographers/${firstName}/${item.image}`;
@@ -108,46 +109,70 @@ function createMediaElement(item, firstName, fullName, index) {
     mediaElement.setAttribute('tabindex', '0');
   } else if (item.video) {
     mediaElement = document.createElement('video');
-    mediaElement.controls = true;
     const source = document.createElement('source');
     source.src = `assets/photographers/${firstName}/${item.video}`;
     source.type = 'video/mp4';
     mediaElement.appendChild(source);
     mediaElement.setAttribute('alt', `${item.title} - ${fullName}`);
+    mediaElement.setAttribute('tabindex', '0');
   }
 
-  mediaElement.addEventListener("click", () => {
+  // Fonction qui ouvre l’overlay
+  function openOverlay() {
     currentIndex = index;
     const mainImage = document.getElementById("mainImage");
     const mainVideo = document.getElementById("mainVideo");
     const caption = document.getElementById("caption");
 
     toggleOverlay(true);
-    mainVideo.style.display = item.video ? "block" : "none";
-    mainImage.style.display = item.image ? "block" : "none";
-    mainImage.src = `assets/photographers/${firstName}/${item.image || ''}`;
-    mainVideo.src = `assets/photographers/${firstName}/${item.video || ''}`;
-    mainImage.alt = item.title;
+    if (item.image) {
+      mainImage.style.display = "block";
+      mainVideo.style.display = "none";
+      mainImage.src = `assets/photographers/${firstName}/${item.image}`;
+      mainImage.alt = item.title;
+    } else if (item.video) {
+      mainVideo.style.display = "block";
+      mainImage.style.display = "none";
+      mainVideo.src = `assets/photographers/${firstName}/${item.video}`;
+    }
     caption.textContent = item.title;
+  }
+
+  mediaElement.addEventListener("click", openOverlay);
+  mediaElement.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      openOverlay();
+    }
   });
 
+  // Création de la zone de détails (titre + likes)
   const detailMedia = document.createElement('div');
   detailMedia.className = 'detailMedia';
+
   const title = document.createElement('h3');
   title.textContent = item.title;
 
-  //!Likes individuels
+  // Gestion des likes
   const likes = document.createElement('span');
   likes.className = 'likes';
-  likes.setAttribute('alt', 'likes');
+  likes.setAttribute('role', 'button');
+  likes.setAttribute('tabindex', '0');
+  likes.setAttribute('aria-label', 'J’aime ce média');
   let liked = false;
   likes.textContent = `${item.likes} ♥`;
 
-  likes.addEventListener("click", () => {
+  function toggleLike() {
     item.likes += liked ? -1 : 1;
     liked = !liked;
     likes.textContent = `${item.likes} ♥`;
     updateLikesDisplay();
+  }
+
+  likes.addEventListener("click", toggleLike);
+  likes.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      toggleLike();
+    }
   });
 
   detailMedia.appendChild(title);
@@ -275,6 +300,9 @@ async function init() {
   document.querySelector(".overlay .prev")?.addEventListener("click", () => changeImage(-1));
   document.querySelector(".form-close")?.addEventListener("click", closeModal);
 }
+
+
+
 
 const boutonFiltre = document.querySelector('.menu-deroulant');
 const menuOptions = document.querySelector('.options-filtre');
