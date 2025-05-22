@@ -18,6 +18,18 @@ function closeModal() {
     modal.style.display = "none";
 }
 
+function setupFormCloseButton() {
+  const closeBtn = document.querySelector('.form-close');
+  if (closeBtn) {
+    closeBtn.addEventListener('click', closeModal);
+    closeBtn.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === 'Escape') {
+        closeModal();
+      }
+    });
+  }
+}
+
 const boutonForm = document.querySelector("form");
 boutonForm?.addEventListener("submit", traitementFormulaire);
 
@@ -50,7 +62,7 @@ function traitementFormulaire(event) {
     showError(message, "Veuillez entrer 5 caractères ou plus sur le champ message");
     valid = false;
   }
-  
+
   if (valid) {
     console.log({
       prenom: prenom.value, nom: nom.value, email: email.value, message: message.value
@@ -79,3 +91,5 @@ function clearErrors() {
     field.removeAttribute("data-error-visible");
   });
 }
+
+setupFormCloseButton();
