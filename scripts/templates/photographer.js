@@ -43,3 +43,4 @@ class Photographer {
         return article;
     }
 }
+export default Photographer;

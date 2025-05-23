@@ -1,3 +1,5 @@
+import { displayModal, closeModal } from "../utils/contactForm.js";
+
 //! Récupération ID du photographe dans l'URL
 const params = new URLSearchParams(window.location.search);
 const photographerId = parseInt(params.get('id'));
@@ -117,7 +119,6 @@ function createMediaElement(item, firstName, fullName, index) {
     mediaElement.setAttribute('tabindex', '0');
   }
 
-  // Fonction qui ouvre l’overlay
   function openOverlay() {
     currentIndex = index;
     const mainImage = document.getElementById("mainImage");
@@ -145,7 +146,6 @@ function createMediaElement(item, firstName, fullName, index) {
     }
   });
 
-  // Création de la zone de détails (titre + likes)
   const detailMedia = document.createElement('div');
   detailMedia.className = 'detailMedia';
 
@@ -266,11 +266,29 @@ function toggleOverlay(display) {
 document.addEventListener('keydown', (e) => {
   const overlay = document.querySelector(".overlay");
   if (overlay.style.display === "flex") {
-    if (e.key === 'ArrowRight') changeImage(1);
-    else if (e.key === 'ArrowLeft') changeImage(-1);
-    else if (e.key === 'Escape') toggleOverlay(false);
+    const activeElement = document.activeElement;
+
+    if ((e.key === 'Enter' || e.key === ' ') &&
+        (activeElement.classList.contains('next') || activeElement.classList.contains('popup-image'))) {
+      e.preventDefault();
+      changeImage(1);
+    } else if ((e.key === 'Enter' || e.key === ' ') &&
+        activeElement.classList.contains('prev')) {
+      e.preventDefault();
+      changeImage(-1);
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      changeImage(1);
+    } else if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      changeImage(-1);
+    } else if (e.key === 'Escape' || e.key.toLowerCase() === 'x') {
+      toggleOverlay(false);
+    }
   }
 });
+
+
 //!FIN Overlay
 
 //! Formulaire personnalisé

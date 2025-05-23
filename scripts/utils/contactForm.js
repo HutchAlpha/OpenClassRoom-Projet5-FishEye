@@ -1,3 +1,5 @@
+export { displayModal, closeModal };
+
 function displayModal() {
   const modal = document.getElementById("contact_modal");
   if (!modal) return;
@@ -6,8 +8,6 @@ function displayModal() {
   const firstInput = modal.querySelector("input");
   firstInput?.focus();
   if (!modal.dataset.eventsBound) {
-    modal.addEventListener("keydown", handleFormKeyEvents);
-    modal.addEventListener("keydown", trapFocus);
     modal.dataset.eventsBound = "true";
   }
 }
