@@ -255,11 +255,13 @@ function toggleOverlay(display) {
   overlay.style.display = display ? "flex" : "none";
   const headerDisplay = display ? "none" : "block";
   const mainDisplay = display ? "none" : "flex";
+  const navDisplay = display ? "none" : "flex";
   document.getElementById("header").style.display = headerDisplay;
   document.querySelector("header").style.display = headerDisplay;
   document.querySelector(".zoneFiltre").style.display = mainDisplay;
   document.querySelector(".photographer-media").style.display = mainDisplay;
   document.querySelector(".media-info").style.display = mainDisplay;
+  document.querySelector("nav").style.display = navDisplay;
 }
 
 //? Navigation clavier
@@ -305,6 +307,7 @@ async function init() {
     window.location.href = 'index.html';
     return;
   }
+  
   currentPhotographer = photographer;
   const photographerInstance = new Photographer(photographer);
   photographerInstance.displayProfileHeader();
