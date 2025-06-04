@@ -8,20 +8,17 @@ let currentPhotographer = null;
 let mediaList = [];
 let currentIndex = 0;
 
-//! Récupération données photographe +  médias
+
+//! Récupère les données depuis le JSON
 async function getPhotographerData() {
-  try {
-    const response = await fetch("data/photographers.json");
-    const data = await response.json();
-    return {
-      photographer: data.photographers.find(p => p.id === photographerId),
-      media: data.media.filter(m => m.photographerId === photographerId)
-    };
-  } catch (error) {
-    console.error("Erreur lors du chargement des données :", error);
-    return { photographer: null, media: [] };
-  }
+  const response = await fetch("data/photographers.json");
+  const data = await response.json();
+  return {
+    photographer: data.photographers.find(p => p.id === photographerId),
+    media: data.media.filter(m => m.photographerId === photographerId)
+  };
 }
+
 
 //! Header -_=> Informations du photographe
 class Photographer {
@@ -49,22 +46,16 @@ class Photographer {
 
     const infoDiv = document.createElement('div');
     infoDiv.className = 'info';
-
     const h1 = document.createElement('h1');
     h1.textContent = this.name;
-
     const h2 = document.createElement('h2');
     h2.className = 'location';
     h2.textContent = `${this.city}, ${this.country}`;
-
     const p = document.createElement('p');
     p.className = 'tagline';
     p.textContent = this.tagline;
 
-    infoDiv.appendChild(h1);
-    infoDiv.appendChild(h2);
-    infoDiv.appendChild(p);
-
+    infoDiv.append(h1, h2, p);
     const button = document.createElement('button');
     button.className = 'contact_button';
     button.addEventListener('click', displayModal);
@@ -77,179 +68,171 @@ class Photographer {
     img.setAttribute('alt', `Photo de ${this.name}`);
     img.setAttribute('tabindex', '0');
 
-    section.appendChild(infoDiv);
-    section.appendChild(button);
-    section.appendChild(img);
+    section.append(infoDiv, button, img);
     header.appendChild(section);
   }
+}
+
+
+//! Classe de base Media
+class Media {
+  constructor(data, firstName, fullName) {
+    this.title = data.title;
+    this.likes = data.likes;
+    this.date = data.date;
+    this.firstName = firstName;
+    this.fullName = fullName;
+  }
+
+  toggleLike() {
+    this.likes += this.liked ? -1 : 1;
+    this.liked = !this.liked;
+  }
+}
+
+//! Classe ImageMedia
+class ImageMedia extends Media {
+  constructor(data, firstName, fullName) {
+    super(data, firstName, fullName);
+    this.image = data.image;
+  }
+  
+
+  creation(index) {
+    const container = document.createElement('div');
+    container.className = 'PresentationPhotographe';
+    const blockMedia = document.createElement('div');
+    blockMedia.className = 'blockMedia';
+
+    const mediaElement = document.createElement('img');
+    mediaElement.src = `assets/photographers/${this.firstName}/${this.image}`;
+    mediaElement.setAttribute('alt', `${this.title} - ${this.fullName}`);
+    mediaElement.setAttribute('tabindex', '0');
+    mediaElement.addEventListener("click", () => openOverlay(index));
+    mediaElement.addEventListener("keydown", (e) => { if (e.key === "Enter") openOverlay(index); });
+
+    const detailMedia = createDetailMedia(this);
+    blockMedia.appendChild(mediaElement);
+    blockMedia.appendChild(detailMedia);
+    container.appendChild(blockMedia);
+    return container;
+  }
+}
+
+//! Main -_=> Creation IMG / VID
+class VideoMedia extends Media {
+  constructor(data, firstName, fullName) {
+    super(data, firstName, fullName);
+    this.video = data.video;
+  }
+
+  creation(index) {
+    const container = document.createElement('div');
+    container.className = 'PresentationPhotographe';
+    const blockMedia = document.createElement('div');
+    blockMedia.className = 'blockMedia';
+
+    const mediaElement = document.createElement('video');
+    const source = document.createElement('source');
+    source.src = `assets/photographers/${this.firstName}/${this.video}`;
+    source.type = 'video/mp4';
+    mediaElement.appendChild(source);
+    mediaElement.setAttribute('alt', `${this.title} - ${this.fullName}`);
+    mediaElement.setAttribute('tabindex', '0');
+    mediaElement.addEventListener("click", () => openOverlay(index));
+    mediaElement.addEventListener("keydown", (e) => { if (e.key === "Enter") openOverlay(index); });
+
+    const detailMedia = createDetailMedia(this);
+    blockMedia.appendChild(mediaElement);
+    blockMedia.appendChild(detailMedia);
+    container.appendChild(blockMedia);
+    return container;
+  }
+}
+
+//! Factory Method
+function MediaFactory(data, firstName, fullName) {
+  if (data.image) return new ImageMedia(data, firstName, fullName);
+  if (data.video) return new VideoMedia(data, firstName, fullName);
+  throw new Error("Type de média inconnu");
+}
+
+//! Crée le bloc titre + likes
+function createDetailMedia(media) {
+  const detailMedia = document.createElement('div');
+  detailMedia.className = 'detailMedia';
+
+  const title = document.createElement('h3');
+  title.textContent = media.title;
+
+  const likes = document.createElement('span');
+  likes.className = 'likes';
+  likes.setAttribute('role', 'button');
+  likes.setAttribute('tabindex', '0');
+  likes.setAttribute('aria-label', 'J’aime ce média');
+  likes.textContent = `${media.likes} ♥`;
+  media.liked = false;
+
+  likes.addEventListener("click", () => {
+    media.toggleLike();
+    likes.textContent = `${media.likes} ♥`;
+    updateLikesDisplay();
+  });
+  likes.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      media.toggleLike();
+      likes.textContent = `${media.likes} ♥`;
+      updateLikesDisplay();
+    }
+  });
+
+  detailMedia.appendChild(title);
+  detailMedia.appendChild(likes);
+  return detailMedia;
 }
 
 //! Maj affichage total (likes et prix)
 function updateLikesDisplay() {
   const totalLikes = mediaList.reduce((total, item) => total + item.likes, 0);
   document.querySelector('.media-info .TOTALlikes').innerHTML = `
-    <span alt="${totalLikes} likes"> 
-      ${totalLikes} <span class="heart" aria-hidden="true">♥</span> 
+    <span alt="${totalLikes} likes">
+      ${totalLikes} <span class="heart" aria-hidden="true">♥</span>
     </span>`;
   document.querySelector('.media-info .price').textContent = `${currentPhotographer.price} €/ Jour`;
 }
 
-
-//! Main -_=> Creation IMG / VID
-function createMediaElement(item, firstName, fullName, index) {
-  let mediaElement;
-  const container = document.createElement('div');
-  container.className = 'PresentationPhotographe';
-  const blockMedia = document.createElement('div');
-  blockMedia.className = 'blockMedia';
-
-  // Création de l'image ou de la vidéo
-  if (item.image) {
-    mediaElement = document.createElement('img');
-    mediaElement.src = `assets/photographers/${firstName}/${item.image}`;
-    mediaElement.setAttribute('alt', `${item.title} - ${fullName}`);
-    mediaElement.setAttribute('tabindex', '0');
-  } else if (item.video) {
-    mediaElement = document.createElement('video');
-    const source = document.createElement('source');
-    source.src = `assets/photographers/${firstName}/${item.video}`;
-    source.type = 'video/mp4';
-    mediaElement.appendChild(source);
-    mediaElement.setAttribute('alt', `${item.title} - ${fullName}`);
-    mediaElement.setAttribute('tabindex', '0');
-  }
-
-  function openOverlay() {
-    currentIndex = index;
-    const mainImage = document.getElementById("mainImage");
-    const mainVideo = document.getElementById("mainVideo");
-    const caption = document.getElementById("caption");
-
-    toggleOverlay(true);
-    if (item.image) {
-      mainImage.style.display = "block";
-      mainVideo.style.display = "none";
-      mainImage.src = `assets/photographers/${firstName}/${item.image}`;
-      mainImage.alt = item.title;
-    } else if (item.video) {
-      mainVideo.style.display = "block";
-      mainImage.style.display = "none";
-      mainVideo.src = `assets/photographers/${firstName}/${item.video}`;
-    }
-    caption.textContent = item.title;
-  }
-
-  mediaElement.addEventListener("click", openOverlay);
-  mediaElement.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      openOverlay();
-    }
-  });
-
-  const detailMedia = document.createElement('div');
-  detailMedia.className = 'detailMedia';
-
-  const title = document.createElement('h3');
-  title.textContent = item.title;
-
-  // Gestion des likes
-  const likes = document.createElement('span');
-  likes.className = 'likes';
-  likes.setAttribute('role', 'button');
-  likes.setAttribute('tabindex', '0');
-  likes.setAttribute('aria-label', 'J’aime ce média');
-  let liked = false;
-  likes.textContent = `${item.likes} ♥`;
-
-  function toggleLike() {
-    item.likes += liked ? -1 : 1;
-    liked = !liked;
-    likes.textContent = `${item.likes} ♥`;
-    updateLikesDisplay();
-  }
-
-  likes.addEventListener("click", toggleLike);
-  likes.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      toggleLike();
-    }
-  });
-
-  detailMedia.appendChild(title);
-  detailMedia.appendChild(likes);
-  blockMedia.appendChild(mediaElement);
-  blockMedia.appendChild(detailMedia);
-  container.appendChild(blockMedia);
-
-  return container;
-}
-
-//! ZoneFiltre -_=> Filtre des médias
-
-//?Affichage initial des médias
+//! Affiche tous les médias
 function displayMedia(media, firstName, fullName) {
-  mediaList = media.map(item => ({ ...item, firstName, fullName }));
+  mediaList = media.map(item => MediaFactory(item, firstName, fullName));
   const mediaSection = document.querySelector('.photographer-media');
   mediaSection.innerHTML = '';
   mediaList.forEach((item, index) => {
-    mediaSection.appendChild(createMediaElement(item, firstName, fullName, index));
+    mediaSection.appendChild(item.creation(index));
   });
 }
 
-//?Ouvre/ferme le menu (clic ou clavier)
-function toggleMenu() {
-  const expanded = boutonFiltre.getAttribute('aria-expanded') === 'true';
-  boutonFiltre.setAttribute('aria-expanded', String(!expanded));
-  menuOptions.style.display = expanded ? 'none' : 'block';
-}
-
-
-function appliquerFiltre(option) {
-  const critere = option.dataset.valeur;
-  const btn = boutonFiltre.querySelector('.bouton-filtre');
-  btn.innerHTML = `${option.textContent} <span class="fleche">&#9660;</span>`;
-  boutonFiltre.setAttribute('aria-expanded', 'false');
-  menuOptions.style.display = 'none';
-  trierMedia(critere);
-}
-
-function trierMedia(critere) {
-  const sorted = [...mediaList];
-  if (critere === 'popularity') sorted.sort((a, b) => b.likes - a.likes);
-  else if (critere === 'date') sorted.sort((a, b) => new Date(a.date) - new Date(b.date));
-  else if (critere === 'title') sorted.sort((a, b) => a.title.localeCompare(b.title));
-  const container = document.querySelector('.photographer-media');
-  container.innerHTML = '';
-  mediaList = sorted;
-  mediaList.forEach((item, idx) => {
-    container.appendChild(createMediaElement(item, item.firstName, item.fullName, idx));
-  });
-}
-//!FIN Filtre des médias
-
-
-//!Overlay
-//? Navigation l'overlay
-function changeImage(valeur) {
-  if (!mediaList.length) return;
-  currentIndex = (currentIndex + valeur + mediaList.length) % mediaList.length;
+//! Affiche l'overlay média
+function openOverlay(index) {
+  currentIndex = (index + mediaList.length) % mediaList.length;
   const item = mediaList[currentIndex];
   const mainImage = document.getElementById("mainImage");
   const mainVideo = document.getElementById("mainVideo");
   const caption = document.getElementById("caption");
-  if (item.image) {
+
+  toggleOverlay(true);
+  if (item instanceof ImageMedia) {
     mainImage.src = `assets/photographers/${item.firstName}/${item.image}`;
-    mainImage.style.display = "flex";
+    mainImage.style.display = "block";
     mainVideo.style.display = "none";
-  } else if (item.video) {
+  } else {
     mainVideo.src = `assets/photographers/${item.firstName}/${item.video}`;
-    mainVideo.style.display = "flex";
+    mainVideo.style.display = "block";
     mainImage.style.display = "none";
   }
-  document.querySelector(".overlay").style.display = "flex";
   caption.textContent = item.title;
 }
 
+//! Affiche/masque l'overlay
 function toggleOverlay(display) {
   const overlay = document.querySelector(".overlay");
   overlay.style.display = display ? "flex" : "none";
@@ -264,34 +247,28 @@ function toggleOverlay(display) {
   document.querySelector("nav").style.display = navDisplay;
 }
 
-//? Navigation clavier
+//! Navigation clavier overlay
 document.addEventListener('keydown', (e) => {
   const overlay = document.querySelector(".overlay");
   if (overlay.style.display === "flex") {
-    const activeElement = document.activeElement;
-
-    if ((e.key === 'Enter' || e.key === ' ') &&
-        (activeElement.classList.contains('next') || activeElement.classList.contains('popup-image'))) {
+    const active = document.activeElement;
+    if ((e.key === 'Enter' || e.key === ' ') && active.classList.contains('next')) {
       e.preventDefault();
-      changeImage(1);
-    } else if ((e.key === 'Enter' || e.key === ' ') &&
-        activeElement.classList.contains('prev')) {
+      openOverlay(currentIndex + 1);
+    } else if ((e.key === 'Enter' || e.key === ' ') && active.classList.contains('prev')) {
       e.preventDefault();
-      changeImage(-1);
+      openOverlay(currentIndex - 1);
     } else if (e.key === 'ArrowRight') {
       e.preventDefault();
-      changeImage(1);
+      openOverlay(currentIndex + 1);
     } else if (e.key === 'ArrowLeft') {
       e.preventDefault();
-      changeImage(-1);
+      openOverlay(currentIndex - 1);
     } else if (e.key === 'Escape' || e.key.toLowerCase() === 'x') {
       toggleOverlay(false);
     }
   }
 });
-
-
-//!FIN Overlay
 
 //! Formulaire personnalisé
 async function formPhotographer(photographer) {
@@ -301,13 +278,38 @@ async function formPhotographer(photographer) {
   }
 }
 
+//! ZoneFiltre -_=> Filtre des médias
+function appliquerFiltre(option) {
+  const critere = option.dataset.valeur;
+  const btn = document.querySelector('.menu-deroulant .bouton-filtre');
+  btn.innerHTML = `${option.textContent} <span class="fleche">&#9660;</span>`;
+  document.querySelector('.menu-deroulant').setAttribute('aria-expanded', 'false');
+  document.querySelector('.options-filtre').style.display = 'none';
+  trierMedia(critere);
+}
+
+function trierMedia(critere) {
+  const sorted = [...mediaList];
+  if (critere === 'popularity') sorted.sort((a, b) => b.likes - a.likes);
+  else if (critere === 'date') sorted.sort((a, b) => new Date(a.date) - new Date(b.date));
+  else if (critere === 'title') sorted.sort((a, b) => a.title.localeCompare(b.title));
+  const container = document.querySelector('.photographer-media');
+  container.innerHTML = '';
+  mediaList = sorted;
+  mediaList.forEach((item, idx) => {
+    container.appendChild(item.creation(idx));
+  });
+}
+
+
+
 async function init() {
   const { photographer, media } = await getPhotographerData();
   if (!photographer || !media.length) {
     window.location.href = 'index.html';
     return;
   }
-  
+
   currentPhotographer = photographer;
   const photographerInstance = new Photographer(photographer);
   photographerInstance.displayProfileHeader();
@@ -316,40 +318,49 @@ async function init() {
   displayMedia(media, firstName, fullName);
   updateLikesDisplay();
   formPhotographer(photographer);
+
   document.querySelector(".overlay .close-btn")?.addEventListener("click", () => toggleOverlay(false));
-  document.querySelector(".overlay .next")?.addEventListener("click", () => changeImage(1));
-  document.querySelector(".overlay .prev")?.addEventListener("click", () => changeImage(-1));
+  document.querySelector(".overlay .next")?.addEventListener("click", () => openOverlay(currentIndex + 1));
+  document.querySelector(".overlay .prev")?.addEventListener("click", () => openOverlay(currentIndex - 1));
   document.querySelector(".form-close")?.addEventListener("click", closeModal);
-}
 
 
 
+  //! Filtre clavier accessible
+  const boutonFiltre = document.querySelector('.menu-deroulant');
+  const menuOptions = document.querySelector('.options-filtre');
+  const options = document.querySelectorAll('.option-filtre');
 
-const boutonFiltre = document.querySelector('.menu-deroulant');
-const menuOptions = document.querySelector('.options-filtre');
-const options = document.querySelectorAll('.option-filtre');
+  boutonFiltre.setAttribute('tabindex', '0');
+  boutonFiltre.setAttribute('aria-haspopup', 'listbox');
+  boutonFiltre.setAttribute('aria-expanded', 'false');
 
-boutonFiltre.setAttribute('aria-haspopup', 'listbox');
-boutonFiltre.setAttribute('aria-expanded', 'false');
+  boutonFiltre.addEventListener('click', () => {
+    const expanded = boutonFiltre.getAttribute('aria-expanded') === 'true';
+    boutonFiltre.setAttribute('aria-expanded', String(!expanded));
+    menuOptions.style.display = expanded ? 'none' : 'block';
+  });
 
-boutonFiltre.addEventListener('click', toggleMenu);
-boutonFiltre.addEventListener('keydown', e => {
-  if (e.key === 'Enter' || e.key === ' ') {
-    e.preventDefault();
-    toggleMenu();
-  }
-});
-
-options.forEach(option => {
-  option.setAttribute('role', 'option');
-  option.setAttribute('tabindex', '0');
-  option.addEventListener('click', () => appliquerFiltre(option));
-  option.addEventListener('keydown', e => {
+  boutonFiltre.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      appliquerFiltre(option);
+      const expanded = boutonFiltre.getAttribute('aria-expanded') === 'true';
+      boutonFiltre.setAttribute('aria-expanded', String(!expanded));
+      menuOptions.style.display = expanded ? 'none' : 'block';
     }
   });
-});
+
+  options.forEach(option => {
+    option.setAttribute('role', 'option');
+    option.setAttribute('tabindex', '0');
+    option.addEventListener('click', () => appliquerFiltre(option));
+    option.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        appliquerFiltre(option);
+      }
+    });
+  });
+}
 
 init();
