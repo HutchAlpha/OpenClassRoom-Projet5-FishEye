@@ -18,6 +18,12 @@ h1 {
     color: #901C1C;
     margin-right: 100px;
 }
+.headerindex{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
 
 .logo {
     height: 50px;
