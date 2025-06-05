@@ -1,10 +1,15 @@
 import Photographer from "../templates/photographer.js";
 
 async function getPhotographers() {
-        const response = await fetch("data/photographers.json");
-        const data = await response.json()
-        return data;
-    }
+  try {
+    const response = await fetch("data/photographers.json");
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Erreur lors du chargement des photographes :", error);
+    return null;
+  }
+}
 
 async function displayData(photographers) {
     const photographersSection = document.querySelector(".photographer_section");

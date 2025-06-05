@@ -11,13 +11,20 @@ let currentIndex = 0;
 
 //! Récupère les données depuis le JSON
 async function getPhotographerData() {
-  const response = await fetch("data/photographers.json");
-  const data = await response.json();
-  return {
-    photographer: data.photographers.find(p => p.id === photographerId),
-    media: data.media.filter(m => m.photographerId === photographerId)
-  };
+  try {
+    const response = await fetch("data/photographers.json");
+    const data = await response.json();
+
+    return {
+      photographer: data.photographers.find(p => p.id === photographerId),
+      media: data.media.filter(m => m.photographerId === photographerId)
+    };
+  } catch (error) {
+    console.error("Erreur lors du chargement des données :", error);
+    return null;
+  }
 }
+
 
 
 //! Header -_=> Informations du photographe
