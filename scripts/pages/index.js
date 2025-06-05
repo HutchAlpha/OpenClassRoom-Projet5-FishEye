@@ -3,7 +3,6 @@ import Photographer from "../templates/photographer.js";
 async function getPhotographers() {
         const response = await fetch("data/photographers.json");
         const data = await response.json()
-        console.log("Données des photographes :", data);
         return data;
     }
 

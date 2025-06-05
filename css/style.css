@@ -73,3 +73,39 @@ h1 {
     margin-bottom: 15px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
+/*!Partie page indisponible*/
+.pageIndispo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 50px;
+  text-align: center;
+  background-color: #f8f8f8;
+}
+
+.pageIndispo h1 {
+  font-size: 2rem;
+  color: #901C1C;
+  margin: 50px 0 50px 0;
+}
+
+.BrenvoiIndex {
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  padding: 15px 20px;
+  cursor: pointer;
+  border-top: 1px solid white;
+  background-color: #901C1C;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.BrenvoiIndex:hover {
+  background-color: #6e1616;
+}
+
+/*! fin partie page indisponible*/

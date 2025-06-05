@@ -157,7 +157,7 @@ function MediaFactory(data, firstName, fullName) {
   throw new Error("Type de média inconnu");
 }
 
-//! Crée le bloc titre + likes
+//! Crée le bloc titre + likes ind
 function createDetailMedia(media) {
   const detailMedia = document.createElement('div');
   detailMedia.className = 'detailMedia';
@@ -305,10 +305,15 @@ function trierMedia(critere) {
 
 async function init() {
   const { photographer, media } = await getPhotographerData();
-  if (!photographer || !media.length) {
-    window.location.href = 'index.html';
-    return;
-  }
+    if (!photographer) {
+      document.body.innerHTML = `
+        <main class="pageIndispo" role="main" aria-label="Page du photographe indisponible">
+          <h1>Ce photographe n'existe plus !</h1>
+          <a class="BrenvoiIndex" href="index.html">Retour à l'accueil</a>
+        </main>
+      `;
+      return;
+    }
 
   currentPhotographer = photographer;
   const photographerInstance = new Photographer(photographer);

@@ -93,3 +93,33 @@ function clearErrors() {
 }
 
 setupFormCloseButton();
+
+
+//!Tabulaton formulaire complet
+document.addEventListener("keydown", (e) => {
+  const modal = document.getElementById("contact_modal");
+  if (!modal || modal.style.display !== "flex") return;
+
+  if (e.key === "Escape") {
+    e.preventDefault();
+    closeModal();
+    return;
+  }
+
+  const focusables = modal.querySelectorAll(
+    'input, textarea, button, .form-close, [tabindex]:not([tabindex="-1"])'
+  );
+  const focusable = Array.from(focusables).filter(el => !el.disabled && el.offsetParent !== null);
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+
+  if (e.key === "Tab") {
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  }
+});
